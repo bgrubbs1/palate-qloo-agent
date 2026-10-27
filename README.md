@@ -13,9 +13,55 @@ request behind every pick.
 Built for the **Qloo Agentic Hackathon 2026** (Devpost). MIT licensed. Python standard library only —
 zero dependencies, no build step.
 
+![PALATE — an agentic culture concierge grounded in the Qloo taste graph](docs/cover.png)
+
 ![PALATE web app](docs/screenshot.png)
 
 ---
+
+## Devpost project summary
+
+### Inspiration
+Every AI agent can plan now. Almost none of them have taste. Assistants recommend the same five restaurants and the same three albums — competent, culturally blind. Taste isn't a prompt problem; it's a data problem: you need to know how audiences actually relate across music, film, food and place. So PALATE is built around the smallest, most human decision I could find — *what should I do tonight?* — a decision entirely about taste, where generic recommendations are immediately, personally wrong. Qloo supplies the cultural grounding; PALATE supplies the planning loop that uses it honestly.
+
+### What it does
+Give PALATE a city, a mood, and a few things you love. It resolves those references to entities in the Qloo taste graph, queries cultural affinity for every slot of the evening (dinner → film → music → nightcap), **critiques its own shortlist**, re-queries with a revised signal set when a slot is weak, and only then recommends — with a confidence badge, the taste threads connecting each pick to you, runner-up candidates, and the exact Qloo request behind every decision. The full agent trace is visible in the UI, so nothing is a black box. With `QLOO_API_KEY` set it talks to the real Qloo API (green badge); without a key it runs on a clearly-labelled synthetic taste graph (amber badge). A key never reaches the browser.
+
+### How we built it
+- **Agent loop** (`palate/agent.py`): explicit phases with structured trace events — plan, tool calls, critique, revise, recommend — no framework magic, all inspectable in the response JSON.
+- **Qloo integration** (`palate/qloo.py`): one client interface, two implementations. `LiveQlooClient` uses `GET /search` (resolve references), `GET /v2/tags` (mood → real Qloo tag IDs) and `GET /v2/insights` (recommendations) against `https://hackathon.api.qloo.com`, authenticating with the `X-Api-Key` header and sending `filter.type`, `signal.interests.entities`, `signal.interests.tags`, `signal.location.query`, `take` and `feature.explainability` as documented. `MockQlooClient` serves the same three methods over a bundled synthetic taste graph (56 entities, 48 tags, hand-authored cross-domain taste bridges such as jazz ↔ noir) that is clearly labelled as not Qloo data.
+- **Web app**: a dependency-free Python `http.server` serving a hand-built single-page vanilla JS/CSS UI, plus `POST /api/plan` and `GET /api/healthz`. Rate-limited, size-limited, no persistence, no accounts, no PII.
+- **Honesty engineering**: responses carry their data source; a failed live call produces a labelled simulated fallback instead of a fake "live" result; every recommendation carries confidence and its Qloo query.
+- **Tests + ops**: 62 stdlib `unittest` tests covering the agent loop, the exact live API contract (via an injected fake transport), the mock graph and the HTTP server; a one-command smoke test; a Dockerfile and a Render blueprint so the hosted demo deploys with no build step.
+
+### Challenges
+- **No API key during development** — Qloo hackathon keys are provisioned manually. Built mock and live as one interface so the agent only ever sees a client; the offline path exercises exactly the same code. Contract tests pin the live request shape; flipping one env var switches to the real API.
+- **Docs sharp edges** — hackathon keys only work against `hackathon.api.qloo.com`; the key goes in `X-Api-Key`, not a Bearer header; `/v2/insights` is a GET with query parameters; unsupported parameters are silently ignored rather than erroring. Each is encoded as explicit behaviour and a test case.
+- **Making a taste graph feel real offline** — random data produces nonsense; hand-authored cross-domain affinity bridges make jazz lead legitimately to a neo-noir film and a wine bar.
+- **Designing for trust** — an agent that hides reasoning is just a recommender. Every phase emits a trace event, every pick carries confidence, matched threads and the request behind it, and simulated data is never labelled live.
+
+### Accomplishments
+- A genuinely agentic loop where critique and revise actually change the outcome: the agent re-queries Qloo when its own shortlist is weak.
+- A complete, polished product — single-page UI with trace, expandable Qloo requests, confidence badges, taste threads — not a CLI proof of concept.
+- 62 tests, a one-command smoke test, zero dependencies, and a deployable hosted demo on a free tier.
+- Honest failure modes: labelled mock, labelled fallback, no way to mistake simulated data for the real API.
+- The whole integration is legible to a judge: exact endpoint calls are in the UI and the response JSON.
+
+### What we learned
+- **Cultural intelligence is cross-domain.** The interesting recommendations came from moving between music, film, food and place through taste — exactly what Qloo's taste graph is for.
+- **Self-critique is cheap and high-value for agents.** Concrete critique signals (candidate count, matched threads, mainstream tilt, seed echoing) caught weak slots a single-shot prompt would have shipped confidently.
+- **The boring parts of agent products are trust, labelling and cost control:** what data produced this, how confident is it, what happens when the API fails.
+- **Hackathon logistics are a dependency.** Manually provisioned keys mean integrations must be testable without them; a mock/live interface boundary is the difference between a blocked weekend and a shipping one.
+
+### What's next
+- Verify and tune the live Qloo path end-to-end with the hackathon key, surfacing explainability metadata directly in each card.
+- More slots and formats: weekend escapes, group taste merging, cities beyond the three demo presets.
+- Optional accounts to save a taste profile, server-side caching of Qloo responses (private, never committed).
+- A "why not the obvious pick?" comparison against a popularity baseline, so the Qloo difference is visible in the product.
+- Parallel slot queries with the same visible trace.
+
+### Built with
+`python` · `python-stdlib` · `javascript` · `html5` · `css3` · `qloo` · `qloo-api` · `taste-graph` · `agentic-ai` · `ai-agents` · `multi-step-reasoning` · `rest-api` · `zero-dependencies` · `render` · `docker` · `hugging-face-spaces`
 
 ## Why it's an agent (not a prompt wrapper)
 
