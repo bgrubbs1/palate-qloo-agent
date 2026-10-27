@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Render blueprint for PALATE (free web service, no build step, zero deps).
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: palate-concierge
+    runtime: python
+    plan: free
+    buildCommand: "python3 -c 'import sys; print(sys.version)'"
+    startCommand: "python3 app.py"
+    healthCheckPath: /api/healthz
+    autoDeploy: true
+    envVars:
+      - key: PALATE_MODE
+        value: auto
+      - key: PALATE_MOCK_FALLBACK
+        value: "1"
+      - key: QLOO_BASE_URL
+        value: https://hackathon.api.qloo.com
+      # Set QLOO_API_KEY in the Render dashboard (Secret) once your key arrives.
+      - key: QLOO_API_KEY
+        sync: false

@@ -1,0 +1,61 @@
+──────────────────────────────────────────────────────────────────────────
+  PALATE 1.0.0
+  An agentic culture concierge, grounded in taste.
+  data: simulated taste graph (offline fixture — not Qloo data)   (mock://taste-graph)
+──────────────────────────────────────────────────────────────────────────
+  NOTE: running on the bundled synthetic taste graph — NOT live Qloo data.
+        Set QLOO_API_KEY to switch to the real API.
+
+AGENT TRACE
+  ◈ PLAN      Read the room
+    Parsed intent: Plan a cozy but a little weird evening in New York built around Kamasi Washington, Everything Everywhere All at Once, Ramen Tsubaki. I mapped the mood to 8 tag signals and will use 3 references as Qloo entity signals.
+  ⌕ RESOLVE   Anchored “Kamasi Washington”
+    Qloo /search resolved your reference to Kamasi Washington (artist, id MOCK-ART-001).
+  ⌕ RESOLVE   Anchored “Everything Everywhere All at Once”
+    Qloo /search resolved your reference to Everything Everywhere All at Once (movie, id MOCK-MOV-001).
+  ⌕ RESOLVE   Anchored “Ramen Tsubaki”
+    Qloo /search resolved your reference to Ramen Tsubaki (place, id MOCK-PLC-003).
+  ⌕ RESOLVE   Built the taste signal set
+    3 entity anchors + 8 tag signals are feeding the Qloo insights calls.
+  ◇ QUERY     Qloo place insights for dinner
+    Asked Qloo for 8 places near New York. Returned 8 candidates.
+  ⚖ CRITIQUE  Critiqued the dinner shortlist
+    Shortlist is usable — 6 candidates, 3 with a visible taste thread.
+  ◇ QUERY     Qloo movie insights for film
+    Asked Qloo for 8 movies. Returned 8 candidates.
+  ⚖ CRITIQUE  Critiqued the film shortlist
+    Shortlist is usable — 8 candidates, 3 with a visible taste thread.
+  ◇ QUERY     Qloo artist insights for music
+    Asked Qloo for 8 artists. Returned 8 candidates.
+  ⚖ CRITIQUE  Critiqued the music shortlist
+    Shortlist is usable — 8 candidates, 3 with a visible taste thread.
+  ◇ QUERY     Qloo place insights for nightcap
+    Asked Qloo for 8 places near New York. Returned 8 candidates.
+  ⚖ CRITIQUE  Critiqued the nightcap shortlist
+    Shortlist is usable — 6 candidates, 3 with a visible taste thread.
+  ★ RECOMMEND Assembled the night
+    Locked 4 of 4 slots with a coherent through-line: dinner, film, music, nightcap.
+
+YOUR NIGHT — A cozy but a little weird night in New York, in four moves.
+
+  19:00  DINNER    Vinyl & Vine  [high confidence]
+             tags: Wine Bar, Live Music, Jazz, Cozy
+             Start the night at Vinyl & Vine in Bed-Stuy. It shares a real taste thread with you: Wine Bar, Jazz, Cozy.
+
+  20:45  FILM      Past Lives  [high confidence]
+             tags: Romance, Drama, Indie
+             Queue up Past Lives. It shares a real taste thread with you: Drama, Romance ← Wine Bar, Romance ← Soul.
+
+  22:30  MUSIC     BADBADNOTGOOD  [high confidence]
+             tags: Jazz, Hip-Hop, Experimental
+             Put BADBADNOTGOOD on the walk-home playlist. It shares a real taste thread with you: Jazz, Experimental, Experimental ← Weird.
+
+  23:45  NIGHTCAP  Casa Velluto  [high confidence]
+             tags: Italian, Wine Bar, Cozy, Romantic
+             End at Casa Velluto — West Village. It shares a real taste thread with you: Wine Bar, Cozy, Cozy ← Low-Key.
+
+──────────────────────────────────────────────────────────────────────────
+  4/4 slots filled · 15 Qloo calls · 0 self-corrections · confidence: high
+  taste threads: Wine Bar, Jazz, Cozy, Drama, Experimental, Weird
+  generated in 4 ms
+──────────────────────────────────────────────────────────────────────────

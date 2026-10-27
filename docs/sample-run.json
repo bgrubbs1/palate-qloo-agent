@@ -1,0 +1,779 @@
+{
+  "app": "PALATE",
+  "version": "1.0.0",
+  "mode": "mock",
+  "request": {
+    "city": "New York",
+    "mood": "cozy but a little weird",
+    "loves": [
+      "Kamasi Washington",
+      "Everything Everywhere All at Once",
+      "Ramen Tsubaki"
+    ]
+  },
+  "plan": {
+    "intent": "Plan a cozy but a little weird evening in New York built around Kamasi Washington, Everything Everywhere All at Once, Ramen Tsubaki.",
+    "slots": [
+      {
+        "key": "dinner",
+        "label": "Dinner",
+        "time": "19:00",
+        "filter_type": "urn:entity:place",
+        "cue": "somewhere you'd actually want to eat",
+        "use_location": true
+      },
+      {
+        "key": "film",
+        "label": "Film",
+        "time": "20:45",
+        "filter_type": "urn:entity:movie",
+        "cue": "the thing you'll still be talking about after",
+        "use_location": false
+      },
+      {
+        "key": "music",
+        "label": "Music",
+        "time": "22:30",
+        "filter_type": "urn:entity:artist",
+        "cue": "your soundtrack for the walk home",
+        "use_location": false
+      },
+      {
+        "key": "nightcap",
+        "label": "Nightcap",
+        "time": "23:45",
+        "filter_type": "urn:entity:place",
+        "cue": "one last stop that matches the mood",
+        "use_location": true
+      }
+    ],
+    "mood_tags": [
+      "Cozy",
+      "Wine Bar",
+      "Jazz",
+      "Soul",
+      "Cafe",
+      "Ramen",
+      "Weird",
+      "Experimental"
+    ],
+    "mood_threads": [
+      "cozy",
+      "weird"
+    ],
+    "signal_strategy": "entity seeds from your loves + tag signals from your mood"
+  },
+  "needs": {
+    "seeds": [
+      {
+        "love": "Kamasi Washington",
+        "entity_id": "MOCK-ART-001",
+        "name": "Kamasi Washington",
+        "subtype": "urn:entity:artist",
+        "tags": [
+          "urn:tag:music:jazz",
+          "urn:tag:music:soul",
+          "urn:tag:music:experimental",
+          "urn:tag:music:afrobeat"
+        ],
+        "tag_names": [
+          "Jazz",
+          "Soul",
+          "Experimental",
+          "Afrobeat"
+        ]
+      },
+      {
+        "love": "Everything Everywhere All at Once",
+        "entity_id": "MOCK-MOV-001",
+        "name": "Everything Everywhere All at Once",
+        "subtype": "urn:entity:movie",
+        "tags": [
+          "urn:tag:media:scifi",
+          "urn:tag:media:comedy",
+          "urn:tag:media:drama",
+          "urn:tag:music:experimental"
+        ],
+        "tag_names": [
+          "Sci-Fi",
+          "Comedy",
+          "Drama",
+          "Experimental"
+        ]
+      },
+      {
+        "love": "Ramen Tsubaki",
+        "entity_id": "MOCK-PLC-003",
+        "name": "Ramen Tsubaki",
+        "subtype": "urn:entity:place",
+        "tags": [
+          "urn:tag:cuisine:ramen",
+          "urn:tag:cuisine:japanese",
+          "urn:tag:mood:lowkey"
+        ],
+        "tag_names": [
+          "Ramen",
+          "Japanese",
+          "Low-Key"
+        ]
+      }
+    ],
+    "mood_tag_ids": [
+      "urn:tag:mood:cozy",
+      "urn:tag:venue:winebar",
+      "urn:tag:music:jazz",
+      "urn:tag:music:neosoul",
+      "urn:tag:venue:cafe",
+      "urn:tag:cuisine:ramen",
+      "urn:tag:mood:weird",
+      "urn:tag:music:experimental"
+    ],
+    "mood_tags": [
+      "Cozy",
+      "Wine Bar",
+      "Jazz",
+      "Neo-Soul",
+      "Cafe",
+      "Ramen",
+      "Weird",
+      "Experimental"
+    ],
+    "unresolved": []
+  },
+  "trace": [
+    {
+      "step": 1,
+      "phase": "plan",
+      "title": "Read the room",
+      "detail": "Parsed intent: Plan a cozy but a little weird evening in New York built around Kamasi Washington, Everything Everywhere All at Once, Ramen Tsubaki. I mapped the mood to 8 tag signals and will use 3 references as Qloo entity signals.",
+      "data": {
+        "intent": "Plan a cozy but a little weird evening in New York built around Kamasi Washington, Everything Everywhere All at Once, Ramen Tsubaki.",
+        "slots": [
+          "dinner",
+          "film",
+          "music",
+          "nightcap"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "mood_threads": [
+          "cozy",
+          "weird"
+        ],
+        "loves": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "phase": "resolve",
+      "title": "Anchored \u201cKamasi Washington\u201d",
+      "detail": "Qloo /search resolved your reference to Kamasi Washington (artist, id MOCK-ART-001).",
+      "data": {
+        "query": "Kamasi Washington",
+        "matched": {
+          "entity_id": "MOCK-ART-001",
+          "name": "Kamasi Washington",
+          "subtype": "urn:entity:artist"
+        },
+        "tags": [
+          "Jazz",
+          "Soul",
+          "Experimental",
+          "Afrobeat"
+        ],
+        "qloo_request": {
+          "method": "GET",
+          "path": "/search",
+          "params": {
+            "query": "Kamasi Washington",
+            "types": "urn:entity:artist,urn:entity:movie,urn:entity:book,urn:entity:tv_show,urn:entity:place",
+            "take": 3
+          }
+        }
+      }
+    },
+    {
+      "step": 3,
+      "phase": "resolve",
+      "title": "Anchored \u201cEverything Everywhere All at Once\u201d",
+      "detail": "Qloo /search resolved your reference to Everything Everywhere All at Once (movie, id MOCK-MOV-001).",
+      "data": {
+        "query": "Everything Everywhere All at Once",
+        "matched": {
+          "entity_id": "MOCK-MOV-001",
+          "name": "Everything Everywhere All at Once",
+          "subtype": "urn:entity:movie"
+        },
+        "tags": [
+          "Sci-Fi",
+          "Comedy",
+          "Drama",
+          "Experimental"
+        ],
+        "qloo_request": {
+          "method": "GET",
+          "path": "/search",
+          "params": {
+            "query": "Everything Everywhere All at Once",
+            "types": "urn:entity:artist,urn:entity:movie,urn:entity:book,urn:entity:tv_show,urn:entity:place",
+            "take": 3
+          }
+        }
+      }
+    },
+    {
+      "step": 4,
+      "phase": "resolve",
+      "title": "Anchored \u201cRamen Tsubaki\u201d",
+      "detail": "Qloo /search resolved your reference to Ramen Tsubaki (place, id MOCK-PLC-003).",
+      "data": {
+        "query": "Ramen Tsubaki",
+        "matched": {
+          "entity_id": "MOCK-PLC-003",
+          "name": "Ramen Tsubaki",
+          "subtype": "urn:entity:place"
+        },
+        "tags": [
+          "Ramen",
+          "Japanese",
+          "Low-Key"
+        ],
+        "qloo_request": {
+          "method": "GET",
+          "path": "/search",
+          "params": {
+            "query": "Ramen Tsubaki",
+            "types": "urn:entity:artist,urn:entity:movie,urn:entity:book,urn:entity:tv_show,urn:entity:place",
+            "take": 3
+          }
+        }
+      }
+    },
+    {
+      "step": 5,
+      "phase": "resolve",
+      "title": "Built the taste signal set",
+      "detail": "3 entity anchors + 8 tag signals are feeding the Qloo insights calls.",
+      "data": {
+        "seed_entities": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Neo-Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "unresolved": []
+      }
+    },
+    {
+      "step": 6,
+      "phase": "query",
+      "title": "Qloo place insights for dinner",
+      "detail": "Asked Qloo for 8 places near New York. Returned 8 candidates.",
+      "data": {
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:place",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": "New York",
+          "feature.explainability": "true"
+        },
+        "returned": 8,
+        "top": [
+          "Vinyl & Vine",
+          "Casa Velluto",
+          "Quiet Room"
+        ],
+        "error": null
+      }
+    },
+    {
+      "step": 7,
+      "phase": "critique",
+      "title": "Critiqued the dinner shortlist",
+      "detail": "Shortlist is usable \u2014 6 candidates, 3 with a visible taste thread.",
+      "data": {
+        "verdict": "ok",
+        "confidence": "high",
+        "notes": [
+          "3 of the top 3 share a traceable tag thread with your profile.",
+          "Shortlist is deep enough to choose from without padding."
+        ],
+        "signals": {
+          "candidates": 6,
+          "has_entity_signals": true,
+          "has_tag_signals": true,
+          "has_location": true
+        }
+      }
+    },
+    {
+      "step": 8,
+      "phase": "query",
+      "title": "Qloo movie insights for film",
+      "detail": "Asked Qloo for 8 movies. Returned 8 candidates.",
+      "data": {
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:movie",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": null,
+          "feature.explainability": "true"
+        },
+        "returned": 8,
+        "top": [
+          "Past Lives",
+          "Blade Runner 2049",
+          "The Grand Budapest Hotel"
+        ],
+        "error": null
+      }
+    },
+    {
+      "step": 9,
+      "phase": "critique",
+      "title": "Critiqued the film shortlist",
+      "detail": "Shortlist is usable \u2014 8 candidates, 3 with a visible taste thread.",
+      "data": {
+        "verdict": "ok",
+        "confidence": "high",
+        "notes": [
+          "3 of the top 3 share a traceable tag thread with your profile.",
+          "Shortlist is deep enough to choose from without padding."
+        ],
+        "signals": {
+          "candidates": 8,
+          "has_entity_signals": true,
+          "has_tag_signals": true,
+          "has_location": false
+        }
+      }
+    },
+    {
+      "step": 10,
+      "phase": "query",
+      "title": "Qloo artist insights for music",
+      "detail": "Asked Qloo for 8 artists. Returned 8 candidates.",
+      "data": {
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:artist",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": null,
+          "feature.explainability": "true"
+        },
+        "returned": 8,
+        "top": [
+          "BADBADNOTGOOD",
+          "Khruangbin",
+          "Radiohead"
+        ],
+        "error": null
+      }
+    },
+    {
+      "step": 11,
+      "phase": "critique",
+      "title": "Critiqued the music shortlist",
+      "detail": "Shortlist is usable \u2014 8 candidates, 3 with a visible taste thread.",
+      "data": {
+        "verdict": "ok",
+        "confidence": "high",
+        "notes": [
+          "3 of the top 3 share a traceable tag thread with your profile.",
+          "Shortlist is deep enough to choose from without padding."
+        ],
+        "signals": {
+          "candidates": 8,
+          "has_entity_signals": true,
+          "has_tag_signals": true,
+          "has_location": false
+        }
+      }
+    },
+    {
+      "step": 12,
+      "phase": "query",
+      "title": "Qloo place insights for nightcap",
+      "detail": "Asked Qloo for 8 places near New York. Returned 8 candidates.",
+      "data": {
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:place",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": "New York",
+          "feature.explainability": "true"
+        },
+        "returned": 8,
+        "top": [
+          "Vinyl & Vine",
+          "Casa Velluto",
+          "Quiet Room"
+        ],
+        "error": null
+      }
+    },
+    {
+      "step": 13,
+      "phase": "critique",
+      "title": "Critiqued the nightcap shortlist",
+      "detail": "Shortlist is usable \u2014 6 candidates, 3 with a visible taste thread.",
+      "data": {
+        "verdict": "ok",
+        "confidence": "high",
+        "notes": [
+          "3 of the top 3 share a traceable tag thread with your profile.",
+          "Shortlist is deep enough to choose from without padding."
+        ],
+        "signals": {
+          "candidates": 6,
+          "has_entity_signals": true,
+          "has_tag_signals": true,
+          "has_location": true
+        }
+      }
+    },
+    {
+      "step": 14,
+      "phase": "recommend",
+      "title": "Assembled the night",
+      "detail": "Locked 4 of 4 slots with a coherent through-line: dinner, film, music, nightcap.",
+      "data": {
+        "slots": [
+          {
+            "slot": "dinner",
+            "pick": "Vinyl & Vine",
+            "confidence": "high"
+          },
+          {
+            "slot": "film",
+            "pick": "Past Lives",
+            "confidence": "high"
+          },
+          {
+            "slot": "music",
+            "pick": "BADBADNOTGOOD",
+            "confidence": "high"
+          },
+          {
+            "slot": "nightcap",
+            "pick": "Casa Velluto",
+            "confidence": "high"
+          }
+        ]
+      }
+    }
+  ],
+  "itinerary": [
+    {
+      "slot": "dinner",
+      "label": "Dinner",
+      "time": "19:00",
+      "entity": {
+        "entity_id": "MOCK-PLC-007",
+        "name": "Vinyl & Vine",
+        "subtype": "urn:entity:place",
+        "tags": [
+          "Wine Bar",
+          "Live Music",
+          "Jazz",
+          "Cozy"
+        ],
+        "popularity": 0.52,
+        "properties": {
+          "city": "New York",
+          "neighborhood": "Bed-Stuy",
+          "price_level": 2,
+          "kind": "wine_bar"
+        }
+      },
+      "confidence": "high",
+      "why": "Start the night at Vinyl & Vine in Bed-Stuy. It shares a real taste thread with you: Wine Bar, Jazz, Cozy.",
+      "evidence": {
+        "matched_tags": [
+          "Wine Bar",
+          "Jazz",
+          "Cozy",
+          "Cozy \u2190 Low-Key",
+          "Wine Bar \u2190 Jazz",
+          "Wine Bar \u2190 Cozy",
+          "Live Music \u2190 Jazz"
+        ],
+        "matched_seeds": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Neo-Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "candidate_count": 6,
+        "confidence": "high",
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:place",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": "New York",
+          "feature.explainability": "true"
+        },
+        "qloo_returned": [
+          "Vinyl & Vine",
+          "Casa Velluto",
+          "The Copper Fig"
+        ],
+        "explainability": null,
+        "affinity": 0.8596
+      }
+    },
+    {
+      "slot": "film",
+      "label": "Film",
+      "time": "20:45",
+      "entity": {
+        "entity_id": "MOCK-MOV-004",
+        "name": "Past Lives",
+        "subtype": "urn:entity:movie",
+        "tags": [
+          "Romance",
+          "Drama",
+          "Indie"
+        ],
+        "popularity": 0.75,
+        "properties": {
+          "release_year": 2023
+        }
+      },
+      "confidence": "high",
+      "why": "Queue up Past Lives. It shares a real taste thread with you: Drama, Romance \u2190 Wine Bar, Romance \u2190 Soul.",
+      "evidence": {
+        "matched_tags": [
+          "Drama",
+          "Romance \u2190 Wine Bar",
+          "Romance \u2190 Soul",
+          "Romance \u2190 Neo-Soul",
+          "Drama \u2190 Low-Key"
+        ],
+        "matched_seeds": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Neo-Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "candidate_count": 8,
+        "confidence": "high",
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:movie",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": null,
+          "feature.explainability": "true"
+        },
+        "qloo_returned": [
+          "Past Lives",
+          "Blade Runner 2049",
+          "The Grand Budapest Hotel"
+        ],
+        "explainability": null,
+        "affinity": 0.3607
+      }
+    },
+    {
+      "slot": "music",
+      "label": "Music",
+      "time": "22:30",
+      "entity": {
+        "entity_id": "MOCK-ART-007",
+        "name": "BADBADNOTGOOD",
+        "subtype": "urn:entity:artist",
+        "tags": [
+          "Jazz",
+          "Hip-Hop",
+          "Experimental"
+        ],
+        "popularity": 0.64,
+        "properties": {
+          "scene": "Toronto",
+          "era": "2010s"
+        }
+      },
+      "confidence": "high",
+      "why": "Put BADBADNOTGOOD on the walk-home playlist. It shares a real taste thread with you: Jazz, Experimental, Experimental \u2190 Weird.",
+      "evidence": {
+        "matched_tags": [
+          "Jazz",
+          "Experimental",
+          "Experimental \u2190 Weird",
+          "Jazz \u2190 Wine Bar",
+          "Experimental \u2190 Sci-Fi",
+          "Jazz \u2190 Cozy"
+        ],
+        "matched_seeds": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Neo-Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "candidate_count": 8,
+        "confidence": "high",
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:artist",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": null,
+          "feature.explainability": "true"
+        },
+        "qloo_returned": [
+          "BADBADNOTGOOD",
+          "Khruangbin",
+          "Radiohead"
+        ],
+        "explainability": null,
+        "affinity": 0.377
+      }
+    },
+    {
+      "slot": "nightcap",
+      "label": "Nightcap",
+      "time": "23:45",
+      "entity": {
+        "entity_id": "MOCK-PLC-001",
+        "name": "Casa Velluto",
+        "subtype": "urn:entity:place",
+        "tags": [
+          "Italian",
+          "Wine Bar",
+          "Cozy",
+          "Romantic"
+        ],
+        "popularity": 0.61,
+        "properties": {
+          "city": "New York",
+          "neighborhood": "West Village",
+          "price_level": 3,
+          "kind": "wine_bar"
+        }
+      },
+      "confidence": "high",
+      "why": "End at Casa Velluto \u2014 West Village. It shares a real taste thread with you: Wine Bar, Cozy, Cozy \u2190 Low-Key.",
+      "evidence": {
+        "matched_tags": [
+          "Wine Bar",
+          "Cozy",
+          "Cozy \u2190 Low-Key",
+          "Wine Bar \u2190 Jazz",
+          "Wine Bar \u2190 Cozy",
+          "Cozy \u2190 Wine Bar"
+        ],
+        "matched_seeds": [
+          "Kamasi Washington",
+          "Everything Everywhere All at Once",
+          "Ramen Tsubaki"
+        ],
+        "mood_tags": [
+          "Cozy",
+          "Wine Bar",
+          "Jazz",
+          "Neo-Soul",
+          "Cafe",
+          "Ramen",
+          "Weird",
+          "Experimental"
+        ],
+        "candidate_count": 6,
+        "confidence": "high",
+        "qloo_request": {
+          "path": "/v2/insights",
+          "filter.type": "urn:entity:place",
+          "signal.interests.entities": "MOCK-ART-001,MOCK-MOV-001,MOCK-PLC-003",
+          "signal.interests.tags": "urn:tag:mood:cozy,urn:tag:venue:winebar,urn:tag:music:jazz,urn:tag:music:neosoul,urn:tag:venue:cafe,urn:tag:cuisine:ramen,urn:tag:mood:weird,urn:tag:music:experimental",
+          "signal.location.query": "New York",
+          "feature.explainability": "true"
+        },
+        "qloo_returned": [
+          "Vinyl & Vine",
+          "Casa Velluto",
+          "Quiet Room"
+        ],
+        "explainability": null,
+        "affinity": 0.8126
+      }
+    }
+  ],
+  "summary": {
+    "headline": "A cozy but a little weird night in New York, in four moves.",
+    "taste_threads": [
+      "Wine Bar",
+      "Jazz",
+      "Cozy",
+      "Drama",
+      "Experimental",
+      "Weird"
+    ],
+    "confidence": "high",
+    "slots_filled": 4,
+    "slots_total": 4,
+    "revisions": 0,
+    "qloo_calls": 15
+  },
+  "meta": {
+    "generated_at": "2026-10-27T15:57:09+00:00",
+    "duration_ms": 4,
+    "qloo_errors": 0,
+    "qloo_error_sample": null,
+    "mode": "mock",
+    "data_source": "simulated taste graph (offline fixture \u2014 not Qloo data)",
+    "base_url": "mock://taste-graph"
+  }
+}

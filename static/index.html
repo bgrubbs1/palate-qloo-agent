@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PALATE — an agentic culture concierge</title>
+<meta name="description" content="PALATE plans your night from your taste. An agent that plans, queries the Qloo taste graph, critiques its own shortlist, then recommends." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d0d0f'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='36' fill='%23f2b544' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --ink: #0c0c0e;
+    --ink-2: #141417;
+    --ink-3: #1c1c21;
+    --line: #2b2b32;
+    --paper: #f4efe4;
+    --muted: #a7a39a;
+    --amber: #f2b544;
+    --amber-soft: rgba(242, 181, 68, 0.12);
+    --sage: #9dc4a8;
+    --rose: #e79a8d;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: ui-sans-serif, -apple-system, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(242,181,68,0.07), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(157,196,168,0.05), transparent 60%),
+      var(--ink);
+    color: var(--paper);
+    font-family: var(--sans);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  ::selection { background: var(--amber); color: var(--ink); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 22px 64px; }
+
+  /* ---------- header ---------- */
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .wordmark { display: flex; align-items: baseline; gap: 12px; }
+  .wordmark h1 {
+    font-family: var(--serif); font-weight: 600; font-size: 34px; letter-spacing: 0.14em;
+    margin: 0; color: var(--paper);
+  }
+  .wordmark .dot { color: var(--amber); }
+  .wordmark .tag { color: var(--muted); font-size: 13px; letter-spacing: 0.02em; }
+  .badges { display: flex; gap: 8px; align-items: center; }
+  .badge {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; color: var(--muted);
+    background: var(--ink-2); white-space: nowrap;
+  }
+  .badge.live { color: var(--sage); border-color: rgba(157,196,168,0.4); background: rgba(157,196,168,0.07); }
+  .badge.sim { color: var(--amber); border-color: rgba(242,181,68,0.4); background: var(--amber-soft); }
+  .badge.off { color: var(--rose); border-color: rgba(231,154,141,0.35); }
+
+  /* ---------- hero ---------- */
+  .hero { margin: 46px 0 30px; max-width: 820px; }
+  .hero .kicker {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 14px;
+  }
+  .hero h2 {
+    font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 4.6vw, 52px);
+    line-height: 1.08; margin: 0 0 16px; letter-spacing: -0.01em;
+  }
+  .hero h2 em { color: var(--amber); font-style: italic; }
+  .hero p { color: var(--muted); font-size: 16px; margin: 0; max-width: 660px; }
+  .hero p strong { color: var(--paper); font-weight: 500; }
+
+  /* ---------- layout ---------- */
+  .grid { display: grid; grid-template-columns: minmax(320px, 400px) 1fr; gap: 22px; align-items: start; }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: linear-gradient(180deg, var(--ink-2), var(--ink));
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 22px;
+  }
+  .panel h3 {
+    margin: 0 0 4px; font-family: var(--serif); font-weight: 600; font-size: 20px; letter-spacing: 0.01em;
+  }
+  .panel .hint { color: var(--muted); font-size: 12.5px; margin: 0 0 18px; }
+
+  .field { margin-bottom: 18px; }
+  .field > label {
+    display: block; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+  }
+  .cityrow { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip {
+    border: 1px solid var(--line); background: var(--ink-3); color: var(--muted);
+    border-radius: 999px; padding: 7px 13px; font-size: 13px; cursor: pointer;
+    transition: all 0.15s ease; font-family: var(--sans);
+  }
+  .chip:hover { border-color: #4a4a55; color: var(--paper); }
+  .chip[aria-pressed="true"], .chip.active {
+    border-color: rgba(242,181,68,0.65); color: var(--amber); background: var(--amber-soft);
+  }
+  textarea, input[type="text"] {
+    width: 100%; background: var(--ink-3); color: var(--paper); border: 1px solid var(--line);
+    border-radius: 10px; padding: 11px 13px; font-family: var(--sans); font-size: 14px;
+    resize: vertical; outline: none; transition: border-color 0.15s ease;
+  }
+  textarea:focus, input[type="text"]:focus { border-color: rgba(242,181,68,0.55); }
+  textarea { min-height: 68px; }
+  .chipwrap { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+  .chipwrap .chip { font-size: 12px; padding: 5px 11px; }
+  .loves { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .love {
+    display: inline-flex; align-items: center; gap: 7px; background: var(--ink-3);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 8px 6px 12px; font-size: 13px;
+  }
+  .love button {
+    border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 15px;
+    line-height: 1; padding: 2px 4px; border-radius: 50%;
+  }
+  .love button:hover { color: var(--rose); }
+  .row { display: flex; gap: 10px; align-items: center; }
+  .row input { flex: 1; }
+  .addbtn {
+    border: 1px solid var(--line); background: var(--ink-3); color: var(--paper); border-radius: 10px;
+    padding: 10px 14px; cursor: pointer; font-size: 13px; white-space: nowrap;
+  }
+  .addbtn:hover { border-color: #4a4a55; }
+  .samples { display: flex; flex-direction: column; gap: 7px; margin-top: 8px; }
+  .sample {
+    text-align: left; border: 1px dashed var(--line); background: transparent; color: var(--muted);
+    border-radius: 10px; padding: 9px 12px; cursor: pointer; font-size: 12.5px; transition: all 0.15s;
+  }
+  .sample:hover { border-color: rgba(242,181,68,0.5); color: var(--paper); background: var(--amber-soft); }
+  .submit {
+    width: 100%; margin-top: 8px; border: 0; border-radius: 11px; cursor: pointer;
+    background: var(--amber); color: #1a1408; font-family: var(--sans); font-weight: 650;
+    font-size: 15px; padding: 14px 16px; letter-spacing: 0.01em; transition: transform 0.08s, filter 0.15s;
+  }
+  .submit:hover { filter: brightness(1.06); }
+  .submit:active { transform: translateY(1px); }
+  .submit:disabled { opacity: 0.55; cursor: progress; }
+  .kbdhint { color: var(--muted); font-family: var(--mono); font-size: 10.5px; text-align: center; margin-top: 10px; }
+  .note { color: var(--muted); font-size: 11.5px; font-family: var(--mono); margin-top: 14px; line-height: 1.5; }
+
+  /* ---------- outputs ---------- */
+  #out { min-height: 320px; }
+  .empty {
+    border: 1px dashed var(--line); border-radius: var(--radius); padding: 34px 26px;
+    color: var(--muted); text-align: center;
+  }
+  .empty .big { font-family: var(--serif); font-size: 26px; color: var(--paper); margin-bottom: 10px; }
+  .empty .phases {
+    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .empty .phases span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+
+  .errorbox {
+    border: 1px solid rgba(231,154,141,0.45); background: rgba(231,154,141,0.07);
+    border-radius: var(--radius); padding: 18px 20px; color: var(--rose); font-size: 14px;
+  }
+  .loading { padding: 30px 8px; }
+  .loading .pulse { display: flex; gap: 8px; margin-bottom: 18px; }
+  .loading .pulse i {
+    width: 9px; height: 9px; border-radius: 50%; background: var(--amber); opacity: 0.25;
+    animation: pulse 1.2s infinite ease-in-out;
+  }
+  .loading .pulse i:nth-child(2) { animation-delay: 0.18s; }
+  .loading .pulse i:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes pulse { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.85);} 40% { opacity: 1; transform: scale(1);} }
+  .loading .step { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+
+  .banner {
+    border-radius: var(--radius); padding: 13px 16px; font-size: 13px; margin-bottom: 16px;
+    border: 1px solid rgba(242,181,68,0.35); background: var(--amber-soft); color: var(--amber);
+  }
+  .banner.live { border-color: rgba(157,196,168,0.35); background: rgba(157,196,168,0.07); color: var(--sage); }
+  .banner strong { font-weight: 650; }
+
+  .summary { margin-bottom: 18px; }
+  .summary .eyebrow {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 8px;
+  }
+  .summary h3 { font-family: var(--serif); font-weight: 500; font-size: 27px; margin: 0 0 12px; line-height: 1.15; }
+  .threads { display: flex; flex-wrap: wrap; gap: 7px; }
+  .thread {
+    font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px;
+    color: var(--muted); background: var(--ink-3);
+  }
+  .stats { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .stats b { color: var(--paper); font-weight: 600; }
+
+  .night { display: flex; flex-direction: column; gap: 12px; }
+  .stop {
+    display: grid; grid-template-columns: 64px 1fr; gap: 16px; background: var(--ink-2);
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 17px 18px;
+    animation: rise 0.4s ease both;
+  }
+  .stop:nth-child(2) { animation-delay: 0.05s; } .stop:nth-child(3) { animation-delay: 0.1s; }
+  .stop:nth-child(4) { animation-delay: 0.15s; } .stop:nth-child(5) { animation-delay: 0.2s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(7px);} to { opacity: 1; transform: none;} }
+  .stop .when { font-family: var(--mono); font-size: 12px; color: var(--muted); padding-top: 3px; }
+  .stop .what .label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 4px;
+  }
+  .stop .what h4 { margin: 0 0 3px; font-family: var(--serif); font-size: 23px; font-weight: 500; line-height: 1.2; }
+  .stop .meta { color: var(--muted); font-size: 12px; margin-bottom: 9px; }
+  .stop .why { font-size: 14px; color: #d9d4c8; margin: 0 0 10px; }
+  .stop .foot { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pill {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    border-radius: 999px; padding: 3px 9px; border: 1px solid var(--line); color: var(--muted);
+  }
+  .pill.high { color: var(--sage); border-color: rgba(157,196,168,0.4); }
+  .pill.medium { color: var(--amber); border-color: rgba(242,181,68,0.4); }
+  .pill.low { color: var(--rose); border-color: rgba(231,154,141,0.4); }
+  .tags { color: var(--muted); font-size: 12px; }
+  details.q { margin-top: 10px; }
+  details.q summary {
+    cursor: pointer; color: var(--muted); font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase; list-style: none;
+  }
+  details.q summary::before { content: "▸ "; color: var(--amber); }
+  details.q[open] summary::before { content: "▾ "; }
+  details.q pre {
+    background: var(--ink); border: 1px solid var(--line); border-radius: 9px; padding: 12px;
+    font-family: var(--mono); font-size: 11px; color: #cfc9bb; overflow-x: auto; margin: 8px 0 0;
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  .traces { margin-top: 24px; }
+  .traces h3 { font-family: var(--serif); font-size: 19px; font-weight: 500; margin: 0 0 4px; }
+  .traces .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 14px; }
+  .trace {
+    border-left: 2px solid var(--line); padding: 0 0 14px 16px; margin-left: 5px; position: relative;
+  }
+  .trace::before {
+    content: ""; position: absolute; left: -5px; top: 7px; width: 8px; height: 8px;
+    border-radius: 50%; background: var(--ink-3); border: 1px solid var(--line);
+  }
+  .trace.plan::before, .trace.recommend::before { background: var(--amber); border-color: var(--amber); }
+  .trace.critique::before { background: var(--sage); border-color: var(--sage); }
+  .trace.revise::before, .trace.system::before { background: var(--rose); border-color: var(--rose); }
+  .trace .head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .trace .phase {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); min-width: 62px;
+  }
+  .trace .ttl { font-size: 13.5px; color: var(--paper); font-weight: 550; }
+  .trace .body { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+  .trace details summary { color: var(--muted); font-family: var(--mono); font-size: 10px; cursor: pointer; margin-top: 5px; }
+
+  footer { margin-top: 52px; border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 12px; }
+  footer code { font-family: var(--mono); color: #cfc9bb; background: var(--ink-3); padding: 2px 6px; border-radius: 5px; font-size: 11px; }
+  footer .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  footer h4 { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper); margin: 0 0 8px; }
+  footer p { margin: 0; line-height: 1.6; }
+  a { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark">
+      <h1>PALATE<span class="dot">.</span></h1>
+      <span class="tag">an agentic culture concierge</span>
+    </div>
+    <div class="badges">
+      <span class="badge" id="modeBadge">checking api…</span>
+      <span class="badge" id="verBadge">v1.0</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Plan → Qloo → Critique → Recommend</div>
+    <h2>Your taste, <em>not the algorithm's.</em></h2>
+    <p>
+      PALATE is an agent that plans a real night out. Give it a mood and a few things you love —
+      it resolves them to entities in the <strong>Qloo taste graph</strong>, queries cultural
+      affinity for every slot, then <strong>critiques its own shortlist</strong> and fixes weak spots
+      before it recommends anything.
+    </p>
+  </section>
+
+  <div class="grid">
+    <form class="panel" id="form" autocomplete="off">
+      <h3>Set the evening</h3>
+      <p class="hint">Four moves: dinner, film, music, nightcap.</p>
+
+      <div class="field">
+        <label>City</label>
+        <div class="cityrow" id="cities"></div>
+      </div>
+
+      <div class="field">
+        <label for="mood">Mood</label>
+        <textarea id="mood" name="mood" maxlength="220" placeholder="cozy but a little weird — warm room, strange edges"></textarea>
+        <div class="chipwrap" id="moodChips"></div>
+      </div>
+
+      <div class="field">
+        <label for="loveInput">Things you love</label>
+        <div class="row">
+          <input type="text" id="loveInput" maxlength="80" placeholder="an artist, film, show, book or place…" />
+          <button type="button" class="addbtn" id="addLove">Add</button>
+        </div>
+        <div class="loves" id="loves"></div>
+        <div class="samples" id="samples"></div>
+      </div>
+
+      <button class="submit" type="submit" id="go">Plan my night →</button>
+      <div class="kbdhint">⌘/Ctrl + Enter</div>
+      <p class="note">
+        Live mode calls the real Qloo API server-side; no key ever reaches this page.
+        Without a key, PALATE runs on a bundled <em>synthetic</em> taste graph and says so.
+      </p>
+    </form>
+
+    <div id="out" aria-live="polite">
+      <div class="empty">
+        <div class="big">Nothing planned yet.</div>
+        <p>Pick a mood, add a couple of references, and let the agent do the cultural homework.</p>
+        <div class="phases"><span>1 · plan</span><span>2 · query qloo</span><span>3 · critique</span><span>4 · recommend</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="cols">
+      <div>
+        <h4>What the agent actually does</h4>
+        <p>
+          <code>GET /search</code> resolves your references to Qloo entity IDs ·
+          <code>GET /v2/tags</code> grounds the mood in real tags ·
+          <code>GET /v2/insights</code> with <code>signal.interests.entities</code>,
+          <code>signal.interests.tags</code> and <code>signal.location.query</code> ranks each slot ·
+          the critique step re-queries with a revised signal set when a slot is weak.
+        </p>
+      </div>
+      <div>
+        <h4>Honest by design</h4>
+        <p>
+          Every recommendation carries its confidence and the exact Qloo request that produced it.
+          When live Qloo calls fail, the app labels the fallback run as simulated instead of pretending.
+        </p>
+      </div>
+      <div>
+        <h4>Built for</h4>
+        <p>Qloo Agentic Hackathon 2026 · MIT licensed · Python stdlib only, zero dependencies.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (sel) => document.querySelector(sel);
+  const cities = ["New York", "Los Angeles", "London"];
+  const moods = ["cozy", "a little weird", "romantic", "high-energy", "low-key", "brainy", "nostalgic", "adventurous"];
+  const state = { city: "New York", loves: [] };
+  let sampleProfiles = null;
+
+  const esc = (value) => String(value == null ? "" : value)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
+  // ---------- form wiring ----------
+  const cityRow = $("#cities");
+  cities.forEach((city) => {
+    const btn = document.createElement("button");
+    btn.type = "button"; btn.className = "chip"; btn.textContent = city;
+    btn.setAttribute("aria-pressed", city === state.city ? "true" : "false");
+    btn.addEventListener("click", () => {
+      state.city = city;
+      [...cityRow.children].forEach((c) => c.setAttribute("aria-pressed", c.textContent === city ? "true" : "false"));
+    });
+    cityRow.appendChild(btn);
+  });
+
+  const moodChips = $("#moodChips");
+  moods.forEach((mood) => {
+    const btn = document.createElement("button");
+    btn.type = "button"; btn.className = "chip"; btn.textContent = mood;
+    btn.addEventListener("click", () => {
+      const input = $("#mood");
+      const current = input.value.trim();
+      input.value = current ? current + ", " + mood : mood;
+    });
+    moodChips.appendChild(btn);
+  });
+
+  function renderLoves() {
+    const box = $("#loves");
+    box.innerHTML = "";
+    state.loves.forEach((love, index) => {
+      const pill = document.createElement("span");
+      pill.className = "love";
+      pill.appendChild(document.createTextNode(love));
+      const x = document.createElement("button");
+      x.type = "button"; x.textContent = "×"; x.title = "Remove " + love;
+      x.setAttribute("aria-label", "Remove " + love);
+      x.addEventListener("click", () => { state.loves.splice(index, 1); renderLoves(); });
+      pill.appendChild(x);
+      box.appendChild(pill);
+    });
+  }
+
+  function addLove() {
+    const input = $("#loveInput");
+    const value = input.value.trim();
+    if (!value) return;
+    value.split(/[,;]+/).map((v) => v.trim()).filter(Boolean).forEach((v) => {
+      if (state.loves.length < 8 && state.loves.indexOf(v) === -1) state.loves.push(v);
+    });
+    input.value = "";
+    renderLoves();
+  }
+  $("#addLove").addEventListener("click", addLove);
+  $("#loveInput").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") { event.preventDefault(); addLove(); }
+  });
+
+  function loadProfile(profile) {
+    state.city = profile.city;
+    [...cityRow.children].forEach((c) => c.setAttribute("aria-pressed", c.textContent === profile.city ? "true" : "false"));
+    $("#mood").value = profile.mood;
+    state.loves = profile.loves.slice();
+    renderLoves();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ---------- mode badge ----------
+  fetch("/api/healthz").then((r) => r.json()).then((health) => {
+    const badge = $("#modeBadge");
+    badge.textContent = health.mode === "live" ? "live qloo api" : "simulated taste graph";
+    badge.className = "badge " + (health.mode === "live" ? "live" : "sim");
+    if (health.version) $("#verBadge").textContent = "v" + health.version;
+    if (health.mode !== "live") {
+      const hint = document.createElement("p");
+      hint.className = "note";
+      hint.style.color = "var(--amber)";
+      hint.textContent = "Running without QLOO_API_KEY — recommendations come from a bundled synthetic taste graph. Set the env var to go live.";
+      $("#form").appendChild(hint);
+    }
+  }).catch(() => {
+    const badge = $("#modeBadge");
+    badge.textContent = "api unreachable"; badge.className = "badge off";
+  });
+
+  // ---------- sample profiles ----------
+  fetch("/api/sample").then((r) => r.json()).then((data) => {
+    sampleProfiles = data.profiles || [];
+    const box = $("#samples");
+    box.innerHTML = "";
+    sampleProfiles.forEach((profile) => {
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "sample";
+      btn.textContent = "Try: " + profile.label;
+      btn.addEventListener("click", () => loadProfile(profile));
+      box.appendChild(btn);
+    });
+    // Shareable links: /?demo=1|2|3 autofills and runs a sample profile.
+    const params = new URLSearchParams(location.search);
+    if (params.has("demo") && sampleProfiles.length) {
+      const index = Math.max(0, Math.min(sampleProfiles.length - 1, (parseInt(params.get("demo"), 10) || 1) - 1));
+      loadProfile(sampleProfiles[index]);
+      run();
+    }
+  }).catch(() => {});
+
+  // ---------- submit ----------
+  const form = $("#form");
+  form.addEventListener("submit", (event) => { event.preventDefault(); run(); });
+  document.addEventListener("keydown", (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === "Enter") run();
+  });
+
+  function run() {
+    const mood = $("#mood").value.trim();
+    if (!mood && state.loves.length === 0) {
+      showError("Give PALATE a mood or at least one thing you love — it needs a signal to work from.");
+      return;
+    }
+    const go = $("#go");
+    go.disabled = true;
+    $("#out").innerHTML = loadingMarkup();
+    const phases = ["resolving your references in Qloo…", "querying cultural affinity per slot…", "critiquing its own shortlist…", "assembling the night…"];
+    let phaseIndex = 0;
+    const timer = setInterval(() => {
+      const step = $("#loadStep");
+      if (step) { step.textContent = phases[phaseIndex % phases.length]; phaseIndex += 1; }
+    }, 1300);
+
+    fetch("/api/plan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ city: state.city, mood: mood, loves: state.loves }),
+    })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({ error: "Server returned a non-JSON response." }));
+        if (!response.ok) throw new Error(data.error || ("HTTP " + response.status));
+        return data;
+      })
+      .then((data) => render(data))
+      .catch((error) => showError(error.message))
+      .finally(() => { clearInterval(timer); go.disabled = false; });
+  }
+
+  function loadingMarkup() {
+    return '<div class="panel loading"><div class="pulse"><i></i><i></i><i></i></div>' +
+      '<div class="step" id="loadStep">resolving your references in Qloo…</div></div>';
+  }
+
+  function showError(message) {
+    $("#out").innerHTML = '<div class="errorbox"><strong>The agent stopped.</strong><br>' + esc(message) + "</div>";
+  }
+
+  // ---------- render ----------
+  function render(data) {
+    const mode = data.mode;
+    const simulated = mode === "mock" || mode === "mock-fallback";
+    let html = "";
+    if (mode === "live") {
+      html += '<div class="banner live"><strong>Live Qloo API.</strong> Recommendations come from real Qloo taste insights' +
+        " · " + esc(data.meta.data_source) + ".</div>";
+    } else if (mode === "mock-fallback") {
+      html += '<div class="banner"><strong>Simulated fallback.</strong> The live Qloo call failed, so this run used the bundled synthetic graph.' +
+        " Reason: " + esc(data.fallback_reason || "unknown") + ".</div>";
+    } else {
+      html += '<div class="banner"><strong>Simulated taste graph.</strong> This run used the bundled synthetic fixture (not Qloo data). ' +
+        "Set <code>QLOO_API_KEY</code> to run on the real Qloo API.</div>";
+    }
+
+    const summary = data.summary || {};
+    html += '<div class="panel summary"><div class="eyebrow">' + esc(data.request.city) + " · " + esc(data.request.mood || "mood-led") + "</div>";
+    html += "<h3>" + esc(summary.headline || "Your night") + "</h3>";
+    if (summary.taste_threads && summary.taste_threads.length) {
+      html += '<div class="threads">' + summary.taste_threads.slice(0, 6).map((t) =>
+        '<span class="thread">' + esc(t) + "</span>").join("") + "</div>";
+    }
+    html += '<div class="stats">' +
+      "<span><b>" + (summary.slots_filled || 0) + "/" + (summary.slots_total || 4) + "</b> slots filled</span>" +
+      "<span><b>" + (summary.qloo_calls || 0) + "</b> Qloo calls</span>" +
+      "<span><b>" + (summary.revisions || 0) + "</b> self-corrections</span>" +
+      "<span><b>" + esc(summary.confidence || "—") + "</b> confidence</span>" +
+      "<span><b>" + (data.meta.duration_ms || 0) + "ms</b> agent run</span>" +
+      "</div></div>";
+
+    html += '<div class="night">';
+    (data.itinerary || []).forEach((item) => {
+      const entity = item.entity;
+      html += '<article class="stop"><div class="when">' + esc(item.time) + "</div><div class=\"what\">";
+      html += '<div class="label">' + esc(item.label) + "</div>";
+      if (!entity) {
+        html += "<h4>Left open</h4><p class=\"why\">" + esc(item.why) + "</p>";
+        html += "</div></article>";
+        return;
+      }
+      const props = entity.properties || {};
+      const where = [props.neighborhood || props.city, props.kind ? String(props.kind).replace(/_/g, " ") : ""].filter(Boolean).join(" · ");
+      html += "<h4>" + esc(entity.name) + "</h4>";
+      if (where) html += '<div class="meta">' + esc(where) + "</div>";
+      html += '<p class="why">' + esc(item.why) + "</p>";
+      html += '<div class="foot"><span class="pill ' + esc(item.confidence) + '">' + esc(item.confidence) + " confidence</span>";
+      if (entity.tags && entity.tags.length) html += '<span class="tags">' + esc(entity.tags.slice(0, 4).join(" · ")) + "</span>";
+      html += "</div>";
+      const q = (item.evidence || {}).qloo_request;
+      if (q) {
+        html += '<details class="q"><summary>Qloo request behind this pick</summary><pre>' + esc(JSON.stringify(q, null, 2)) + "</pre></details>";
+      }
+      html += "</div></article>";
+    });
+    html += "</div>";
+
+    html += '<section class="traces"><h3>Agent trace</h3>' +
+      '<p class="sub">Every step is logged. Open a step to see the structured data behind it.</p>';
+    (data.trace || []).forEach((event) => {
+      html += '<div class="trace ' + esc(event.phase) + '"><div class="head"><span class="phase">' + esc(event.phase) + '</span><span class="ttl">' +
+        esc(event.title) + '</span></div><div class="body">' + esc(event.detail) + "</div>";
+      if (event.data) {
+        html += '<details class="q"><summary>data</summary><pre>' + esc(JSON.stringify(event.data, null, 2)) + "</pre></details>";
+      }
+      html += "</div>";
+    });
+    html += "</section>";
+
+    $("#out").innerHTML = html;
+    if (simulated && window.console) console.info("PALATE run used the simulated taste graph");
+  }
+})();
+</script>
+</body>
+</html>

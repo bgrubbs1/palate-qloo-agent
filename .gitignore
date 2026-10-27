@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local config / secrets — never commit a real QLOO_API_KEY
+.env
+.env.*
+!.env.example
+
+# Local artifacts
+*.log
+.DS_Store

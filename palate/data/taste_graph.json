@@ -1,0 +1,1435 @@
+{
+ "meta": {
+  "name": "PALATE synthetic taste graph",
+  "version": 1,
+  "note": "Simulated fixture for offline development of the PALATE agent. Not Qloo data. Entity IDs are synthetic; affinity is computed locally by the mock client.",
+  "license": "MIT"
+ },
+ "tags": [
+  {
+   "id": "urn:tag:music:jazz",
+   "name": "Jazz",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "jazz",
+    "saxophone",
+    "improvisation"
+   ]
+  },
+  {
+   "id": "urn:tag:music:soul",
+   "name": "Soul",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "soul",
+    "motown"
+   ]
+  },
+  {
+   "id": "urn:tag:music:neosoul",
+   "name": "Neo-Soul",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "neo-soul",
+    "neosoul"
+   ]
+  },
+  {
+   "id": "urn:tag:music:hiphop",
+   "name": "Hip-Hop",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "hip-hop",
+    "hiphop",
+    "rap"
+   ]
+  },
+  {
+   "id": "urn:tag:music:indierock",
+   "name": "Indie Rock",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "indie rock",
+    "indie-rock"
+   ]
+  },
+  {
+   "id": "urn:tag:music:electronic",
+   "name": "Electronic",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "electronic",
+    "techno",
+    "house",
+    "dance"
+   ]
+  },
+  {
+   "id": "urn:tag:music:ambient",
+   "name": "Ambient",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "ambient",
+    "drone"
+   ]
+  },
+  {
+   "id": "urn:tag:music:experimental",
+   "name": "Experimental",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "experimental",
+    "avant-garde"
+   ]
+  },
+  {
+   "id": "urn:tag:music:pop",
+   "name": "Pop",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "pop"
+   ]
+  },
+  {
+   "id": "urn:tag:music:punk",
+   "name": "Punk",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "punk",
+    "garage"
+   ]
+  },
+  {
+   "id": "urn:tag:music:folk",
+   "name": "Folk",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "folk",
+    "acoustic"
+   ]
+  },
+  {
+   "id": "urn:tag:music:classical",
+   "name": "Classical",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "classical",
+    "orchestral"
+   ]
+  },
+  {
+   "id": "urn:tag:music:rnb",
+   "name": "R&B",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "r&b",
+    "rnb"
+   ]
+  },
+  {
+   "id": "urn:tag:music:afrobeat",
+   "name": "Afrobeat",
+   "type": "urn:tag:genre:music",
+   "aliases": [
+    "afrobeat",
+    "african"
+   ]
+  },
+  {
+   "id": "urn:tag:media:comedy",
+   "name": "Comedy",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "comedy",
+    "funny"
+   ]
+  },
+  {
+   "id": "urn:tag:media:drama",
+   "name": "Drama",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "drama"
+   ]
+  },
+  {
+   "id": "urn:tag:media:scifi",
+   "name": "Sci-Fi",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "sci-fi",
+    "science fiction",
+    "scifi"
+   ]
+  },
+  {
+   "id": "urn:tag:media:horror",
+   "name": "Horror",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "horror",
+    "scary"
+   ]
+  },
+  {
+   "id": "urn:tag:media:thriller",
+   "name": "Thriller",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "thriller",
+    "suspense"
+   ]
+  },
+  {
+   "id": "urn:tag:media:romance",
+   "name": "Romance",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "romance",
+    "romantic"
+   ]
+  },
+  {
+   "id": "urn:tag:media:documentary",
+   "name": "Documentary",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "documentary",
+    "doc"
+   ]
+  },
+  {
+   "id": "urn:tag:media:animation",
+   "name": "Animation",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "animation",
+    "animated"
+   ]
+  },
+  {
+   "id": "urn:tag:media:noir",
+   "name": "Noir",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "noir",
+    "neo-noir"
+   ]
+  },
+  {
+   "id": "urn:tag:media:indie",
+   "name": "Indie",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "indie"
+   ]
+  },
+  {
+   "id": "urn:tag:media:fantasy",
+   "name": "Fantasy",
+   "type": "urn:tag:genre:media",
+   "aliases": [
+    "fantasy"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:italian",
+   "name": "Italian",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "italian",
+    "pasta"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:japanese",
+   "name": "Japanese",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "japanese",
+    "sushi"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:ramen",
+   "name": "Ramen",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "ramen",
+    "noodles"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:tapas",
+   "name": "Tapas",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "tapas",
+    "small plates"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:mexican",
+   "name": "Mexican",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "mexican",
+    "tacos"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:indian",
+   "name": "Indian",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "indian",
+    "curry"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:vegetarian",
+   "name": "Vegetarian",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "vegetarian",
+    "plant-based"
+   ]
+  },
+  {
+   "id": "urn:tag:cuisine:seafood",
+   "name": "Seafood",
+   "type": "urn:tag:cuisine",
+   "aliases": [
+    "seafood",
+    "fish"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:winebar",
+   "name": "Wine Bar",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "wine bar",
+    "wine-bar",
+    "wine"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:cocktailbar",
+   "name": "Cocktail Bar",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "cocktail bar",
+    "cocktail-bar",
+    "cocktails"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:cafe",
+   "name": "Cafe",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "cafe",
+    "coffee"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:livemusic",
+   "name": "Live Music",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "live music",
+    "live-music",
+    "gig"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:gallery",
+   "name": "Gallery",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "gallery",
+    "art"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:cinema",
+   "name": "Cinema",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "cinema",
+    "movie theater"
+   ]
+  },
+  {
+   "id": "urn:tag:venue:bookstore",
+   "name": "Bookstore",
+   "type": "urn:tag:venue",
+   "aliases": [
+    "bookstore",
+    "books"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:cozy",
+   "name": "Cozy",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "cozy",
+    "warm",
+    "intimate",
+    "snug"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:weird",
+   "name": "Weird",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "weird",
+    "strange",
+    "surreal",
+    "odd"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:romantic",
+   "name": "Romantic",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "romantic",
+    "date night"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:highenergy",
+   "name": "High-Energy",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "high-energy",
+    "energetic",
+    "loud",
+    "party"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:lowkey",
+   "name": "Low-Key",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "low-key",
+    "lowkey",
+    "chill",
+    "quiet"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:brainy",
+   "name": "Brainy",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "brainy",
+    "thoughtful",
+    "nerdy",
+    "ideas"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:nostalgic",
+   "name": "Nostalgic",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "nostalgic",
+    "retro",
+    "vintage"
+   ]
+  },
+  {
+   "id": "urn:tag:mood:adventurous",
+   "name": "Adventurous",
+   "type": "urn:tag:mood",
+   "aliases": [
+    "adventurous",
+    "new",
+    "bold",
+    "curious"
+   ]
+  }
+ ],
+ "entities": [
+  {
+   "entity_id": "MOCK-ART-001",
+   "name": "Kamasi Washington",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:jazz",
+    "urn:tag:music:soul",
+    "urn:tag:music:experimental",
+    "urn:tag:music:afrobeat"
+   ],
+   "popularity": 0.68,
+   "properties": {
+    "scene": "Los Angeles",
+    "era": "2010s"
+   },
+   "description": "Sprawling spiritual jazz from LA."
+  },
+  {
+   "entity_id": "MOCK-ART-002",
+   "name": "Radiohead",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:indierock",
+    "urn:tag:music:experimental",
+    "urn:tag:music:ambient",
+    "urn:tag:music:electronic"
+   ],
+   "popularity": 0.94,
+   "properties": {
+    "scene": "Oxford",
+    "era": "1990s"
+   },
+   "description": "Art-rock band known for anxious, expansive records."
+  },
+  {
+   "entity_id": "MOCK-ART-003",
+   "name": "Little Simz",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:hiphop",
+    "urn:tag:music:soul",
+    "urn:tag:music:rnb"
+   ],
+   "popularity": 0.72,
+   "properties": {
+    "scene": "London",
+    "era": "2010s"
+   },
+   "description": "Sharp, cinematic UK rap."
+  },
+  {
+   "entity_id": "MOCK-ART-004",
+   "name": "Fiona Apple",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:indierock",
+    "urn:tag:music:jazz",
+    "urn:tag:music:soul"
+   ],
+   "popularity": 0.79,
+   "properties": {
+    "scene": "New York",
+    "era": "1990s"
+   },
+   "description": "Idiosyncratic piano-driven songwriting."
+  },
+  {
+   "entity_id": "MOCK-ART-005",
+   "name": "Khruangbin",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:indierock",
+    "urn:tag:music:soul",
+    "urn:tag:music:experimental"
+   ],
+   "popularity": 0.71,
+   "properties": {
+    "scene": "Houston",
+    "era": "2010s"
+   },
+   "description": "Globally inflected, mostly instrumental grooves."
+  },
+  {
+   "entity_id": "MOCK-ART-006",
+   "name": "Bonobo",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:electronic",
+    "urn:tag:music:ambient",
+    "urn:tag:music:neosoul"
+   ],
+   "popularity": 0.76,
+   "properties": {
+    "scene": "London",
+    "era": "2000s"
+   },
+   "description": "Downtempo and organic electronic music."
+  },
+  {
+   "entity_id": "MOCK-ART-007",
+   "name": "BADBADNOTGOOD",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:jazz",
+    "urn:tag:music:hiphop",
+    "urn:tag:music:experimental"
+   ],
+   "popularity": 0.64,
+   "properties": {
+    "scene": "Toronto",
+    "era": "2010s"
+   },
+   "description": "Instrumental jazz-hip-hop hybrid."
+  },
+  {
+   "entity_id": "MOCK-ART-008",
+   "name": "Phoebe Bridgers",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:folk",
+    "urn:tag:music:indierock"
+   ],
+   "popularity": 0.78,
+   "properties": {
+    "scene": "Los Angeles",
+    "era": "2010s"
+   },
+   "description": "Wry, melancholic indie folk."
+  },
+  {
+   "entity_id": "MOCK-ART-009",
+   "name": "Nils Frahm",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:ambient",
+    "urn:tag:music:classical",
+    "urn:tag:music:electronic"
+   ],
+   "popularity": 0.66,
+   "properties": {
+    "scene": "Berlin",
+    "era": "2010s"
+   },
+   "description": "Piano and modular-synth minimalism."
+  },
+  {
+   "entity_id": "MOCK-ART-010",
+   "name": "Burna Boy",
+   "type": "urn:entity",
+   "subtype": "urn:entity:artist",
+   "tags": [
+    "urn:tag:music:afrobeat",
+    "urn:tag:music:pop",
+    "urn:tag:music:rnb"
+   ],
+   "popularity": 0.83,
+   "properties": {
+    "scene": "Lagos",
+    "era": "2010s"
+   },
+   "description": "Afro-fusion superstar."
+  },
+  {
+   "entity_id": "MOCK-MOV-001",
+   "name": "Everything Everywhere All at Once",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:scifi",
+    "urn:tag:media:comedy",
+    "urn:tag:media:drama",
+    "urn:tag:music:experimental"
+   ],
+   "popularity": 0.88,
+   "properties": {
+    "release_year": 2022
+   },
+   "description": "Multiverse family tragicomedy."
+  },
+  {
+   "entity_id": "MOCK-MOV-002",
+   "name": "Blade Runner 2049",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:scifi",
+    "urn:tag:media:noir",
+    "urn:tag:media:drama"
+   ],
+   "popularity": 0.84,
+   "properties": {
+    "release_year": 2017
+   },
+   "description": "Neo-noir science fiction."
+  },
+  {
+   "entity_id": "MOCK-MOV-003",
+   "name": "Parasite",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:thriller",
+    "urn:tag:media:drama",
+    "urn:tag:media:comedy"
+   ],
+   "popularity": 0.86,
+   "properties": {
+    "release_year": 2019
+   },
+   "description": "Class satire turned thriller."
+  },
+  {
+   "entity_id": "MOCK-MOV-004",
+   "name": "Past Lives",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:romance",
+    "urn:tag:media:drama",
+    "urn:tag:media:indie"
+   ],
+   "popularity": 0.75,
+   "properties": {
+    "release_year": 2023
+   },
+   "description": "Quiet romance across decades."
+  },
+  {
+   "entity_id": "MOCK-MOV-005",
+   "name": "The Grand Budapest Hotel",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:comedy",
+    "urn:tag:media:drama",
+    "urn:tag:media:indie"
+   ],
+   "popularity": 0.8,
+   "properties": {
+    "release_year": 2014
+   },
+   "description": "Symmetrical, wistful caper."
+  },
+  {
+   "entity_id": "MOCK-MOV-006",
+   "name": "Aftersun",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:drama",
+    "urn:tag:media:indie"
+   ],
+   "popularity": 0.7,
+   "properties": {
+    "release_year": 2022
+   },
+   "description": "Memory and fatherhood on a holiday."
+  },
+  {
+   "entity_id": "MOCK-MOV-007",
+   "name": "Spirited Away",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:animation",
+    "urn:tag:media:fantasy"
+   ],
+   "popularity": 0.9,
+   "properties": {
+    "release_year": 2001
+   },
+   "description": "Japanese animated fable."
+  },
+  {
+   "entity_id": "MOCK-MOV-008",
+   "name": "Get Out",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:horror",
+    "urn:tag:media:thriller"
+   ],
+   "popularity": 0.85,
+   "properties": {
+    "release_year": 2017
+   },
+   "description": "Social horror with a satirical edge."
+  },
+  {
+   "entity_id": "MOCK-MOV-009",
+   "name": "Whiplash",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:drama",
+    "urn:tag:media:thriller"
+   ],
+   "popularity": 0.82,
+   "properties": {
+    "release_year": 2014
+   },
+   "description": "Jazz drumming as obsession."
+  },
+  {
+   "entity_id": "MOCK-MOV-010",
+   "name": "Dune: Part Two",
+   "type": "urn:entity",
+   "subtype": "urn:entity:movie",
+   "tags": [
+    "urn:tag:media:scifi",
+    "urn:tag:media:drama",
+    "urn:tag:media:fantasy"
+   ],
+   "popularity": 0.91,
+   "properties": {
+    "release_year": 2024
+   },
+   "description": "Desert epic."
+  },
+  {
+   "entity_id": "MOCK-TV-001",
+   "name": "Severance",
+   "type": "urn:entity",
+   "subtype": "urn:entity:tv_show",
+   "tags": [
+    "urn:tag:media:scifi",
+    "urn:tag:media:thriller",
+    "urn:tag:media:drama"
+   ],
+   "popularity": 0.84,
+   "properties": {
+    "release_year": 2022
+   },
+   "description": "Office surrealism and identity."
+  },
+  {
+   "entity_id": "MOCK-TV-002",
+   "name": "Fleabag",
+   "type": "urn:entity",
+   "subtype": "urn:entity:tv_show",
+   "tags": [
+    "urn:tag:media:comedy",
+    "urn:tag:media:drama"
+   ],
+   "popularity": 0.83,
+   "properties": {
+    "release_year": 2016
+   },
+   "description": "Acidic, tender British comedy."
+  },
+  {
+   "entity_id": "MOCK-TV-003",
+   "name": "The Bear",
+   "type": "urn:entity",
+   "subtype": "urn:entity:tv_show",
+   "tags": [
+    "urn:tag:media:drama",
+    "urn:tag:media:comedy"
+   ],
+   "popularity": 0.85,
+   "properties": {
+    "release_year": 2022
+   },
+   "description": "Restaurant kitchen pressure."
+  },
+  {
+   "entity_id": "MOCK-TV-004",
+   "name": "Planet Earth",
+   "type": "urn:entity",
+   "subtype": "urn:entity:tv_show",
+   "tags": [
+    "urn:tag:media:documentary"
+   ],
+   "popularity": 0.89,
+   "properties": {
+    "release_year": 2006
+   },
+   "description": "Nature documentary series."
+  },
+  {
+   "entity_id": "MOCK-BOK-001",
+   "name": "Piranesi",
+   "type": "urn:entity",
+   "subtype": "urn:entity:book",
+   "tags": [
+    "urn:tag:media:fantasy",
+    "urn:tag:media:indie"
+   ],
+   "popularity": 0.62,
+   "properties": {
+    "release_year": 2020
+   },
+   "description": "A house of infinite halls."
+  },
+  {
+   "entity_id": "MOCK-BOK-002",
+   "name": "The Overstory",
+   "type": "urn:entity",
+   "subtype": "urn:entity:book",
+   "tags": [
+    "urn:tag:media:drama",
+    "urn:tag:media:documentary"
+   ],
+   "popularity": 0.58,
+   "properties": {
+    "release_year": 2018
+   },
+   "description": "Trees, time, and activism."
+  },
+  {
+   "entity_id": "MOCK-BOK-003",
+   "name": "Hyperion",
+   "type": "urn:entity",
+   "subtype": "urn:entity:book",
+   "tags": [
+    "urn:tag:media:scifi"
+   ],
+   "popularity": 0.61,
+   "properties": {
+    "release_year": 1989
+   },
+   "description": "Literary space opera."
+  },
+  {
+   "entity_id": "MOCK-BOK-004",
+   "name": "Kitchen",
+   "type": "urn:entity",
+   "subtype": "urn:entity:book",
+   "tags": [
+    "urn:tag:media:drama",
+    "urn:tag:cuisine:japanese"
+   ],
+   "popularity": 0.55,
+   "properties": {
+    "release_year": 1988
+   },
+   "description": "Quiet Japanese coming-of-age."
+  },
+  {
+   "entity_id": "MOCK-PLC-001",
+   "name": "Casa Velluto",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:italian",
+    "urn:tag:venue:winebar",
+    "urn:tag:mood:cozy",
+    "urn:tag:mood:romantic"
+   ],
+   "popularity": 0.61,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "West Village",
+    "price_level": 3,
+    "kind": "wine_bar"
+   },
+   "description": "A wine bar in West Village, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-002",
+   "name": "Nori & Smoke",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:japanese",
+    "urn:tag:cuisine:seafood",
+    "urn:tag:mood:cozy"
+   ],
+   "popularity": 0.57,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "East Village",
+    "price_level": 3,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in East Village, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-003",
+   "name": "Ramen Tsubaki",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:ramen",
+    "urn:tag:cuisine:japanese",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.64,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Greenpoint",
+    "price_level": 1,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in Greenpoint, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-004",
+   "name": "Parlor Nine",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cocktailbar",
+    "urn:tag:mood:highenergy",
+    "urn:tag:mood:nostalgic"
+   ],
+   "popularity": 0.66,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Lower East Side",
+    "price_level": 2,
+    "kind": "cocktail_bar"
+   },
+   "description": "A cocktail bar in Lower East Side, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-005",
+   "name": "The Copper Fig",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:tapas",
+    "urn:tag:venue:winebar",
+    "urn:tag:mood:cozy",
+    "urn:tag:mood:romantic"
+   ],
+   "popularity": 0.49,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Cobble Hill",
+    "price_level": 2,
+    "kind": "wine_bar"
+   },
+   "description": "A wine bar in Cobble Hill, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-006",
+   "name": "Lumen Gallery Cafe",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cafe",
+    "urn:tag:venue:gallery",
+    "urn:tag:mood:brainy",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.44,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Bushwick",
+    "price_level": 1,
+    "kind": "cafe"
+   },
+   "description": "A cafe in Bushwick, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-007",
+   "name": "Vinyl & Vine",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:winebar",
+    "urn:tag:venue:livemusic",
+    "urn:tag:music:jazz",
+    "urn:tag:mood:cozy"
+   ],
+   "popularity": 0.52,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Bed-Stuy",
+    "price_level": 2,
+    "kind": "wine_bar"
+   },
+   "description": "A wine bar in Bed-Stuy, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-008",
+   "name": "Fern & Field",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:vegetarian",
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.4,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Park Slope",
+    "price_level": 2,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in Park Slope, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-009",
+   "name": "Blue Hour Books",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:bookstore",
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:brainy",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.47,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "SoHo",
+    "price_level": 1,
+    "kind": "bookstore"
+   },
+   "description": "A bookstore in SoHo, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-010",
+   "name": "The Velvet Room",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cocktailbar",
+    "urn:tag:music:jazz",
+    "urn:tag:mood:nostalgic",
+    "urn:tag:mood:romantic"
+   ],
+   "popularity": 0.58,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Harlem",
+    "price_level": 3,
+    "kind": "cocktail_bar"
+   },
+   "description": "A cocktail bar in Harlem, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-011",
+   "name": "Midnight Arcade",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cocktailbar",
+    "urn:tag:mood:highenergy",
+    "urn:tag:mood:nostalgic",
+    "urn:tag:mood:weird"
+   ],
+   "popularity": 0.63,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Williamsburg",
+    "price_level": 2,
+    "kind": "cocktail_bar"
+   },
+   "description": "A cocktail bar in Williamsburg, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-012",
+   "name": "Quiet Room",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:lowkey",
+    "urn:tag:mood:weird"
+   ],
+   "popularity": 0.42,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Chinatown",
+    "price_level": 1,
+    "kind": "cafe"
+   },
+   "description": "A cafe in Chinatown, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-013",
+   "name": "Sable Diner",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:mood:nostalgic",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.55,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Hell's Kitchen",
+    "price_level": 1,
+    "kind": "diner"
+   },
+   "description": "A diner in Hell's Kitchen, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-014",
+   "name": "Circuit Cellar",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cocktailbar",
+    "urn:tag:music:electronic",
+    "urn:tag:mood:weird",
+    "urn:tag:mood:highenergy"
+   ],
+   "popularity": 0.5,
+   "properties": {
+    "city": "New York",
+    "neighborhood": "Bushwick",
+    "price_level": 2,
+    "kind": "cocktail_bar"
+   },
+   "description": "A cocktail bar in Bushwick, New York."
+  },
+  {
+   "entity_id": "MOCK-PLC-015",
+   "name": "Golden Hour Taco Bar",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:mexican",
+    "urn:tag:mood:highenergy",
+    "urn:tag:venue:cocktailbar"
+   ],
+   "popularity": 0.59,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Silver Lake",
+    "price_level": 1,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in Silver Lake, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-016",
+   "name": "Malibu Listening Room",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:livemusic",
+    "urn:tag:venue:winebar",
+    "urn:tag:music:ambient",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.51,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Malibu",
+    "price_level": 3,
+    "kind": "live_music_venue"
+   },
+   "description": "A live music venue in Malibu, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-017",
+   "name": "Sycamore & Sand",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:lowkey",
+    "urn:tag:mood:cozy"
+   ],
+   "popularity": 0.45,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Venice",
+    "price_level": 1,
+    "kind": "cafe"
+   },
+   "description": "A cafe in Venice, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-018",
+   "name": "Sunset Noodle House",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:ramen",
+    "urn:tag:cuisine:japanese",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.53,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Echo Park",
+    "price_level": 1,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in Echo Park, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-019",
+   "name": "The Echo Annex",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:livemusic",
+    "urn:tag:music:punk",
+    "urn:tag:mood:highenergy"
+   ],
+   "popularity": 0.6,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Echo Park",
+    "price_level": 2,
+    "kind": "live_music_venue"
+   },
+   "description": "A live music venue in Echo Park, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-020",
+   "name": "Canyon Wine Co",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:winebar",
+    "urn:tag:mood:romantic",
+    "urn:tag:mood:cozy"
+   ],
+   "popularity": 0.48,
+   "properties": {
+    "city": "Los Angeles",
+    "neighborhood": "Los Feliz",
+    "price_level": 2,
+    "kind": "wine_bar"
+   },
+   "description": "A wine bar in Los Feliz, Los Angeles."
+  },
+  {
+   "entity_id": "MOCK-PLC-021",
+   "name": "Soho Spice Room",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:cuisine:indian",
+    "urn:tag:mood:highenergy"
+   ],
+   "popularity": 0.56,
+   "properties": {
+    "city": "London",
+    "neighborhood": "Soho",
+    "price_level": 2,
+    "kind": "restaurant"
+   },
+   "description": "A restaurant in Soho, London."
+  },
+  {
+   "entity_id": "MOCK-PLC-022",
+   "name": "Brick Lane Beigel Co",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:nostalgic",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.62,
+   "properties": {
+    "city": "London",
+    "neighborhood": "Shoreditch",
+    "price_level": 1,
+    "kind": "cafe"
+   },
+   "description": "A cafe in Shoreditch, London."
+  },
+  {
+   "entity_id": "MOCK-PLC-023",
+   "name": "Thames Folly",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cocktailbar",
+    "urn:tag:mood:romantic",
+    "urn:tag:venue:winebar"
+   ],
+   "popularity": 0.54,
+   "properties": {
+    "city": "London",
+    "neighborhood": "South Bank",
+    "price_level": 3,
+    "kind": "cocktail_bar"
+   },
+   "description": "A cocktail bar in South Bank, London."
+  },
+  {
+   "entity_id": "MOCK-PLC-024",
+   "name": "Camden Basement",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:livemusic",
+    "urn:tag:music:punk",
+    "urn:tag:mood:highenergy"
+   ],
+   "popularity": 0.58,
+   "properties": {
+    "city": "London",
+    "neighborhood": "Camden",
+    "price_level": 2,
+    "kind": "live_music_venue"
+   },
+   "description": "A live music venue in Camden, London."
+  },
+  {
+   "entity_id": "MOCK-PLC-025",
+   "name": "Hackney Coffee Lab",
+   "type": "urn:entity",
+   "subtype": "urn:entity:place",
+   "tags": [
+    "urn:tag:venue:cafe",
+    "urn:tag:mood:brainy",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.43,
+   "properties": {
+    "city": "London",
+    "neighborhood": "Hackney",
+    "price_level": 1,
+    "kind": "cafe"
+   },
+   "description": "A cafe in Hackney, London."
+  },
+  {
+   "entity_id": "MOCK-DST-001",
+   "name": "Hudson Valley",
+   "type": "urn:entity",
+   "subtype": "urn:entity:destination",
+   "tags": [
+    "urn:tag:mood:romantic",
+    "urn:tag:mood:lowkey"
+   ],
+   "popularity": 0.55,
+   "properties": {
+    "city": "New York"
+   },
+   "description": "Upstate escapes, orchards and quiet inns."
+  },
+  {
+   "entity_id": "MOCK-DST-002",
+   "name": "Joshua Tree",
+   "type": "urn:entity",
+   "subtype": "urn:entity:destination",
+   "tags": [
+    "urn:tag:mood:weird",
+    "urn:tag:mood:adventurous"
+   ],
+   "popularity": 0.6,
+   "properties": {
+    "city": "Los Angeles"
+   },
+   "description": "Desert light and odd rock formations."
+  },
+  {
+   "entity_id": "MOCK-DST-003",
+   "name": "Margate",
+   "type": "urn:entity",
+   "subtype": "urn:entity:destination",
+   "tags": [
+    "urn:tag:mood:nostalgic",
+    "urn:tag:mood:weird"
+   ],
+   "popularity": 0.38,
+   "properties": {
+    "city": "London"
+   },
+   "description": "Seaside town with a surreal art streak."
+  }
+ ]
+}
