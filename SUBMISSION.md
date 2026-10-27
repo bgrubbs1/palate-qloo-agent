@@ -174,7 +174,7 @@ git init -b main
 git add .
 git commit -m "PALATE — agentic culture concierge on the Qloo taste graph"
 # create an empty PUBLIC repo named "palate" on github.com first, then:
-git remote add origin https://github.com/<GITHUB_USERNAME>/<REPO_NAME>.git
+git remote add origin https://github.com/bgrubbs1/palate-qloo-agent.git
 git push -u origin main
 ```
 
