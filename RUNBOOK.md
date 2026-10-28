@@ -248,5 +248,6 @@ platforms show these in their log viewer.
 - [x] `POST /api/plan` returns 200 and a complete JSON payload; invalid input returns 400.
 - [x] Live-mode start without a key exits with an actionable message.
 - [x] Live-mode network failure falls back to a clearly labelled `mock-fallback` run.
-- [ ] Real Qloo API call with a valid hackathon key — requires the user's key.
-- [ ] Hosted deployment on Render/HF — requires the user's accounts.
+- [x] Real Qloo `/search`, `/v2/tags`, and `/v2/insights` calls returned HTTP 200 with the hackathon key (2026-10-28).
+- [x] Vercel Hobby production deployment returned `mode=live`; a public planning request filled all four slots without a simulated fallback (2026-10-28).
+- [ ] Hosted deployment on Render/HF — not needed for the current Vercel demo and not verified.

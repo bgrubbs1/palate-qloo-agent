@@ -1,8 +1,9 @@
 # SUBMISSION — Qloo Agentic Hackathon 2026 (Devpost)
 
 **Deadline: Friday 2026-10-30, 23:45 ET.** Judging: Nov 2–5. Winners announced on air **Nov 5**.
-Everything in **Part 1** is ready to paste into the Devpost submission form. **Part 3** is the only part
-that needs the user personally. Placeholders look like `<THIS>` — replace them once, then paste.
+**Current status (2026-10-28):** PALATE is submitted on Devpost. The Qloo hackathon key
+is stored as a Vercel Production Secret, and the public demo passed a live four-slot plan.
+The preparation checklist below is retained for reference. Placeholders look like `<THIS>`.
 
 Verified rules/quotes live in [`RULES-NOTES.md`](RULES-NOTES.md). Two facts drive this checklist:
 
@@ -69,7 +70,7 @@ Stack: Python 3.9+ standard library only, vanilla HTML/CSS/JS, Qloo Insights + L
 ## Challenges we ran into
 
 ```
-- No API key during development. Qloo hackathon keys are provisioned manually ("allow a few business days"), and I couldn't request one on someone else's behalf. So I built mock and live as one interface: the agent only ever sees a client, which means the offline mode exercises exactly the same code path. Contract tests pin the live request shape from the official developer guide, and flipping one environment variable switches to the real API.
+- No API key at the start of development. Qloo hackathon keys are provisioned manually, so I built mock and live as one interface: the agent only ever sees a client, which means the offline mode exercises the same planning path. Once the key arrived, I corrected the live `/search` response parser and verified the public demo against the real API.
 - The Qloo docs have sharp edges. Hackathon keys only work against https://hackathon.api.qloo.com, not the staging/production URLs that appear in most doc examples; the key goes in X-Api-Key, not a Bearer header; /v2/insights is a GET with query parameters; and unsupported parameters are silently ignored rather than erroring. I encoded each of those as explicit behaviour and test cases, and made "thin result" an agent-critique trigger instead of an exception.
 - Making a taste graph feel real offline. Random data produces nonsense. I hand-authored cross-domain affinity bridges so a jazz reference can legitimately lead to a neo-noir film and a wine bar. The agent's reasoning is only impressive if the underlying signal behaves like taste, even in simulation.
 - Designing for trust. An agent that hides its reasoning is just a recommendation engine. Every phase emits a trace event with structured data; every recommendation carries confidence, matched threads and the request behind it — and the app refuses to label simulated data as live.
@@ -97,7 +98,7 @@ Stack: Python 3.9+ standard library only, vanilla HTML/CSS/JS, Qloo Insights + L
 ## What's next for PALATE
 
 ```
-- Verify and tune the live Qloo path end-to-end with the hackathon key, including explainability metadata surfaced directly in each card ("Qloo attributes this to…").
+- Tune the verified live Qloo path and surface explainability metadata directly in each card ("Qloo attributes this to…").
 - More slots and formats: weekend escapes (destination entities), group taste merging (signal.interests.entities for a group profile), cities beyond the three demo presets.
 - Optional accounts to save a taste profile and a history of nights; server-side caching of Qloo responses (permitted privately, never committed).
 - A "why not the obvious pick?" comparison mode: show the top-affinity result next to a generic popularity-based baseline, so the Qloo difference is visible in the product itself.
@@ -127,7 +128,7 @@ optionally a second screenshot of the agent trace. Avoid screenshots showing a s
 you have captured a live-mode run; if your demo is still in mock mode when you submit, keep the screenshot
 honest (the amber banner is fine — do not edit it out).
 
-## Honest-swap paragraph (use ONLY if your API key has not arrived by submit time)
+## Historical mock-mode paragraph (not applicable to the current live demo)
 
 Replace the sentence *"when a QLOO_API_KEY is present it talks to the real Qloo API and the badge turns
 green"* in **What it does** with:
@@ -138,8 +139,8 @@ provisioned manually; the live Qloo integration is implemented and contract-test
 setting QLOO_API_KEY with no code changes.
 ```
 
-Do not claim a live Qloo run you have not actually executed. The code, tests and README carry the
-integration either way; only the demo's badge changes.
+The public demo completed a live four-slot plan on 2026-10-28. Keep any future fallback
+clearly labelled as simulated.
 
 ---
 

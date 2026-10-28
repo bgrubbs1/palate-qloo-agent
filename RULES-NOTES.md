@@ -262,34 +262,30 @@ data (the mock fixture is synthetic and labelled as such).
 
 ---
 
-## 7. UNVERIFIED — do not treat these as facts
+## 7. Verification status (updated 2026-10-28)
 
-1. **Live Qloo API behaviour was not exercised from this environment.** No hackathon key was available (and
-   obtaining one is a user-only action). The live client is implemented from the official developer guide and
-   covered by contract tests with an injected transport; the deployed live demo is the end-to-end proof.
-2. **`GET /search` and `GET /v2/tags` sample response bodies are not shown verbatim in the public docs.**
-   The docs list parameters and status codes only. PALATE parses these defensively (tags extracted from
-   `results.tags`, `results.entities`, or top-level `tags`). Exact production shape: **UNVERIFIED**.
+1. **Live Qloo API behaviour is verified.** The hackathon key returned HTTP 200 from `/search`,
+   `/v2/tags`, and `/v2/insights`. The public Vercel demo returned `mode=live` and filled four
+   itinerary slots without simulated fallback on 2026-10-28.
+2. **Response shapes were verified against the hackathon API.** `/search` returned a top-level
+   `results[]` list with `types[]` and tag `tag_id` fields; `/v2/tags` returned `results.tags[]`;
+   `/v2/insights` returned `results.entities[]`. Regression tests cover those shapes.
 3. **`feature.explainability` response shape**: documented as returning per-result and aggregate influence
    metadata, but no example JSON was captured. PALATE consumes it only if present and never depends on its
    shape. **UNVERIFIED**.
 4. **`urn:entity:video_game` vs `urn:entity:videogame`**: the hackathon developer guide lists
    `urn:entity:video_game`, while the Insights deep-dive enum shows `urn:entity:videogame`. PALATE never
    uses this type; if extending the app, verify against the live API first. **UNVERIFIED**.
-5. **Exact `/v2/insights` base URL in the deep-dive examples** shows `https://api.qloo.com` (generic docs),
-   while the hackathon guide says hackathon keys only work against `https://hackathon.api.qloo.com`.
-   PALATE defaults to the hackathon URL but keeps it configurable via `QLOO_BASE_URL`. Verified by guide
-   text; effective behaviour against the live hackathon environment **UNVERIFIED**.
+5. **Hackathon base URL verified.** PALATE called `https://hackathon.api.qloo.com/v2/insights`
+   with the provisioned key and received HTTP 200. The base URL remains configurable.
 6. **Rate/quota numbers** are not published; the guide says limits are high and can be raised on request.
-7. **Devpost submission form fields** are only visible to signed-in participants. The rules require repo
-   URL, demo URL, text description; additional fields (e.g. optional video, built-with tags, "try it out"
-   URL) are standard Devpost but their exact labels are **UNVERIFIED** until the user joins.
+7. **Devpost submission verified.** The signed-in project page states "Project submitted" for
+   PALATE, and a Devpost confirmation email was received on 2026-10-28.
 8. **Hosting free-tier behaviour** (Render free web service cold starts, Hugging Face Spaces availability,
    required account/terms) was not verified by deploying — that requires the user's accounts. Estimated
    times in `SUBMISSION.md` are conservative guesses, not measured.
-9. **API-key approval time** is stated as "typically … a few business days" but not guaranteed. If the key
-   does not arrive by the deadline, the hosted demo still runs in clearly-labelled mock mode; the
-   submission would then be honest about the live path not being demonstrable. Request the key immediately.
+9. **API key received.** Qloo emailed the hackathon key on 2026-10-27 ET; it is stored only as a
+   Vercel Production Secret for the public demo. The key is not in this repository.
 10. **Finalist appearance logistics** (remote vs in-person, preparation schedule) are unspecified beyond
     "must be able to appear". **UNVERIFIED**.
 11. **Video requirement**: the hackathon page says videos are not required, but the Devpost submission form

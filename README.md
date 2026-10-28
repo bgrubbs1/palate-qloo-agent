@@ -35,7 +35,7 @@ Give PALATE a city, a mood, and a few things you love. It resolves those referen
 - **Tests + ops**: 62 stdlib `unittest` tests covering the agent loop, the exact live API contract (via an injected fake transport), the mock graph and the HTTP server; a one-command smoke test; a Dockerfile and a Render blueprint so the hosted demo deploys with no build step.
 
 ### Challenges
-- **No API key during development** — Qloo hackathon keys are provisioned manually. Built mock and live as one interface so the agent only ever sees a client; the offline path exercises exactly the same code. Contract tests pin the live request shape; flipping one env var switches to the real API.
+- **No API key at the start of development** — Qloo hackathon keys are provisioned manually. Built mock and live as one interface so the agent only ever sees a client; the offline path exercises the same planning code. After the key arrived, live response shapes and a public end-to-end run were verified.
 - **Docs sharp edges** — hackathon keys only work against `hackathon.api.qloo.com`; the key goes in `X-Api-Key`, not a Bearer header; `/v2/insights` is a GET with query parameters; unsupported parameters are silently ignored rather than erroring. Each is encoded as explicit behaviour and a test case.
 - **Making a taste graph feel real offline** — random data produces nonsense; hand-authored cross-domain affinity bridges make jazz lead legitimately to a neo-noir film and a wine bar.
 - **Designing for trust** — an agent that hides reasoning is just a recommender. Every phase emits a trace event, every pick carries confidence, matched threads and the request behind it, and simulated data is never labelled live.
@@ -257,14 +257,15 @@ The official hackathon page requires a **live, externally published demo**:
 This repo is deployable as-is on free tiers with no build step:
 
 - **Vercel Hobby**: The public demo is at https://palate-qloo-agent-demo.vercel.app/.
-  `vercel.json` builds the Python API functions and static page. Without a Qloo key,
-  the demo explicitly labels all recommendations as simulated.
+  `vercel.json` builds the Python API functions and static page. The hackathon key is stored
+  as a Vercel Production Secret, so the demo uses the live Qloo API. If a live request fails,
+  the app explicitly labels any simulated fallback.
 - **Render** (recommended, ~8 min): New → Web Service → this repo → start command `python3 app.py` →
   add `QLOO_API_KEY` as a secret env var. `render.yaml` describes the same service.
 - **Hugging Face Spaces** (~10 min): create a Docker Space and push this repo; the included `Dockerfile`
   listens on `$PORT` (7860 by default).
-- Deploy in **mock mode first** (works immediately, before your key arrives), then add `QLOO_API_KEY`
-  and restart — the UI badge flips from *Simulated taste graph* to *Live Qloo API*.
+- For a new deployment, start in **mock mode**, then add `QLOO_API_KEY` as a server-side
+  secret and redeploy. The UI badge then flips to *Live Qloo API*.
 
 Step-by-step: [`RUNBOOK.md`](RUNBOOK.md). Everything the end user must do personally (request the key,
 create accounts, deploy, submit) is listed with time estimates in
@@ -277,16 +278,14 @@ create accounts, deploy, submit) is listed with time estimates in
 - **Mock data is synthetic, not Qloo data.** Fictional venue names, real public titles, invented affinity
   weights. The UI says so in a banner on every simulated run. Qloo response data is never committed
   (the developer guide forbids storing it in a public repository; we do not cache or persist it).
-- The live client's parsing of `GET /search` and `GET /v2/tags` is defensive because their sample response
-  bodies are not shown verbatim in the public docs; `GET /v2/insights` follows the documented sample
-  response (`success` → `results.entities[]`, fields `name`, `entity_id`, `subtype`, `tags`, `properties`).
+- The live client's parsing was checked against the hackathon API on 2026-10-28:
+  `/search` returns a top-level `results[]` list, `/v2/tags` returns `results.tags[]`, and
+  `/v2/insights` returns `results.entities[]`. The key is not committed or sent to the browser.
 - `feature.explainability` is documented as returning per-result influence metadata; PALATE consumes it
   when present but never depends on a specific shape.
-- The live path has not been exercised against the real API from this environment (no hackathon key was
-  available). The contract above is implemented from the official developer guide and covered by
-  contract tests; the hosted live demo is the end-to-end proof.
-- Qloo hackathon keys are provisioned manually and can take **a few business days** — request yours before
-  building further.
+- A production `POST /api/plan` with a jazz/Miles Davis profile returned live mode and four
+  populated itinerary slots on 2026-10-28. Qloo rate and quota limits were not independently
+  verified; availability may vary with the hackathon API.
 
 ---
 
