@@ -52,18 +52,15 @@ INSIGHTS_PAYLOAD = {
 }
 
 SEARCH_PAYLOAD = {
-    "success": True,
-    "results": {
-        "entities": [
+    "results": [
             {
                 "name": "Kamasi Washington",
                 "entity_id": "UUID-2",
-                "subtype": "urn:entity:artist",
-                "properties": {},
-                "tags": [{"id": "urn:tag:music:jazz", "name": "Jazz"}],
+                "types": ["urn:entity:artist"],
+                "properties": {"short_description": "Jazz saxophonist."},
+                "tags": [{"tag_id": "urn:tag:music:jazz", "name": "Jazz"}],
             }
-        ]
-    },
+    ],
 }
 
 TAGS_PAYLOAD = {
@@ -108,6 +105,9 @@ class LiveClientTests(unittest.TestCase):
         client = self.make_client(transport)
         rows = client.search("Kamasi Washington", types=["urn:entity:artist", "urn:entity:movie"], take=3)
         self.assertEqual(rows[0]["entity_id"], "UUID-2")
+        self.assertEqual(rows[0]["subtype"], "urn:entity:artist")
+        self.assertEqual(rows[0]["tags"], [{"id": "urn:tag:music:jazz", "name": "Jazz"}])
+        self.assertEqual(rows[0]["description"], "Jazz saxophonist.")
         parsed = urllib.parse.urlparse(transport.calls[0]["url"])
         self.assertEqual(parsed.path, "/search")
         query = urllib.parse.parse_qs(parsed.query)

@@ -275,6 +275,10 @@ class LiveQlooClient:
         if not isinstance(payload, dict):
             return []
         results = payload.get("results")
+        # The hackathon /search endpoint returns results as a list, while
+        # /v2/insights nests entities under results.entities.
+        if isinstance(results, list):
+            return results
         if isinstance(results, dict):
             entities = results.get("entities")
             if isinstance(entities, list):
@@ -287,17 +291,22 @@ class LiveQlooClient:
             return None
         tags = []
         for tag in raw.get("tags") or []:
-            if isinstance(tag, dict) and tag.get("id"):
-                tags.append({"id": tag["id"], "name": tag.get("name") or ""})
+            if isinstance(tag, dict):
+                tag_id = tag.get("id") or tag.get("tag_id")
+                if tag_id:
+                    tags.append({"id": tag_id, "name": tag.get("name") or ""})
+        raw_types = raw.get("types") or []
+        subtype = raw.get("subtype") or (raw_types[0] if raw_types else raw.get("type")) or ""
+        properties = raw.get("properties") or {}
         entity = {
             "entity_id": raw.get("entity_id") or raw.get("id") or "",
             "name": raw.get("name") or raw.get("title") or "",
             "type": raw.get("type") or "urn:entity",
-            "subtype": raw.get("subtype") or raw.get("type") or "",
+            "subtype": subtype,
             "tags": tags,
             "popularity": _safe_float(raw.get("popularity"), 0.5),
-            "properties": raw.get("properties") or {},
-            "description": (raw.get("properties") or {}).get("description") or "",
+            "properties": properties,
+            "description": properties.get("description") or properties.get("short_description") or "",
         }
         explainability = _extract_explainability(raw)
         if explainability:
