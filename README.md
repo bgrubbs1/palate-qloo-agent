@@ -256,6 +256,9 @@ The official hackathon page requires a **live, externally published demo**:
 *"Submissions that only run locally or rely on private access will not qualify."*
 This repo is deployable as-is on free tiers with no build step:
 
+- **Vercel Hobby**: The public demo is at https://palate-qloo-agent-demo.vercel.app/.
+  `vercel.json` builds the Python API functions and static page. Without a Qloo key,
+  the demo explicitly labels all recommendations as simulated.
 - **Render** (recommended, ~8 min): New → Web Service → this repo → start command `python3 app.py` →
   add `QLOO_API_KEY` as a secret env var. `render.yaml` describes the same service.
 - **Hugging Face Spaces** (~10 min): create a Docker Space and push this repo; the included `Dockerfile`

@@ -3,4 +3,7 @@
 from app import PalateHandler, configure
 
 configure()
-handler = PalateHandler
+
+
+class handler(PalateHandler):
+    """Vercel's Python runtime requires a declared handler class."""

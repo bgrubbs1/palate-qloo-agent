@@ -113,9 +113,9 @@ python, python-stdlib, javascript, html5, css3, qloo, qloo-api, taste-graph, age
 ## "Try it out" / testing instructions (paste into the form if a field exists)
 
 ```
-Hosted demo: <HOSTED_DEMO_URL> — free, no login.
+Hosted demo: https://palate-qloo-agent-demo.vercel.app/ — free, no login.
 
-Fast path: open <HOSTED_DEMO_URL>/?demo=1 (autofills a profile and runs the agent), or pick a sample profile and press "Plan my night". The header badge and run banner state whether the run used the real Qloo API or the bundled simulated graph. Expand any stop's "Qloo request behind this pick" and the agent trace to see the /search, /v2/tags and /v2/insights calls.
+Fast path: open https://palate-qloo-agent-demo.vercel.app/?demo=1 (autofills a profile and runs the agent), or pick a sample profile and press "Plan my night". The header badge and run banner state whether the run used the real Qloo API or the bundled simulated graph. Expand any stop's "Qloo request behind this pick" and the agent trace to see the /search, /v2/tags and /v2/insights calls.
 
 No credentials are needed. The source repo has full run instructions, a mock mode that works offline, and a one-command smoke test.
 ```

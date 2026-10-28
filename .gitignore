@@ -12,3 +12,5 @@ venv/
 # Local artifacts
 *.log
 .DS_Store
+.vercel
+.env*
