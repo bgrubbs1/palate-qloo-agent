@@ -543,7 +543,7 @@
     }
     html += '<div class="stats">' +
       "<span><b>" + (summary.slots_filled || 0) + "/" + (summary.slots_total || 4) + "</b> slots filled</span>" +
-      "<span><b>" + (summary.qloo_calls || 0) + "</b> Qloo calls</span>" +
+      "<span><b>" + (summary.qloo_calls || 0) + "</b> " + (data.mode === "live" ? "Qloo calls" : "simulated queries") + "</span>" +
       "<span><b>" + (summary.revisions || 0) + "</b> self-corrections</span>" +
       "<span><b>" + esc(summary.confidence || "—") + "</b> confidence</span>" +
       "<span><b>" + (data.meta.duration_ms || 0) + "ms</b> agent run</span>" +

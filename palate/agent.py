@@ -278,7 +278,7 @@ class Concierge:
                 self._qloo_calls += 1
             except QlooError as exc:
                 self._qloo_errors.append(str(exc))
-                _trace_event(self.trace, "resolve", "Search failed", "Qloo /search hit an error for %r: %s" % (love, exc), {"query": love})
+                _trace_event(self.trace, "resolve", "Search failed", "/search hit an error for %r: %s" % (love, exc), {"query": love})
                 unresolved.append({"love": love, "reason": str(exc)})
                 continue
             hit = _pick_seed(hits)
@@ -306,7 +306,7 @@ class Concierge:
                 self.trace,
                 "resolve",
                 "Anchored “%s”" % love,
-                "Qloo /search resolved your reference to %s (%s, id %s)."
+                "/search resolved your reference to %s (%s, id %s)."
                 % (hit.get("name"), hit.get("subtype", "entity").rsplit(":", 1)[-1], hit.get("entity_id", "")[:18] or "n/a"),
                 {
                     "query": love,
@@ -384,8 +384,8 @@ class Concierge:
             _trace_event(
                 self.trace,
                 "query",
-                "Qloo %s insights for %s" % (slot["filter_type"].rsplit(":", 1)[-1], slot["label"].lower()),
-                "Asked Qloo for %d %s%s. Returned %d candidate%s%s."
+                "%s insights for %s" % (slot["filter_type"].rsplit(":", 1)[-1].title(), slot["label"].lower()),
+                "Queried the taste source for %d %s%s. Returned %d candidate%s%s."
                 % (
                     TAKE_PER_SLOT,
                     slot["filter_type"].rsplit(":", 1)[-1].replace("_", " ") + "s",
@@ -841,11 +841,11 @@ def _rationale(slot, candidate, pick, request):
     else:
         parts.append("Put %s on the walk-home playlist." % name)
     if matched:
-        parts.append("It shares a real taste thread with you: %s." % ", ".join(matched[:3]))
+        parts.append("It shares a taste thread with you: %s." % ", ".join(matched[:3]))
     elif genre_names:
-        parts.append("Qloo ranked it highest for your combined signals (%s)." % ", ".join(genre_names))
+        parts.append("The taste source ranked it highest for your combined signals (%s)." % ", ".join(genre_names))
     else:
-        parts.append("Qloo ranked it highest for your combined signals.")
+        parts.append("The taste source ranked it highest for your combined signals.")
     if pick["critique"]["confidence"] != "high":
         parts.append("Confidence is %s \u2014 a slightly bigger leap, flagged honestly." % pick["critique"]["confidence"])
     return " ".join(parts)
